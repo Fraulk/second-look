@@ -6,13 +6,15 @@ interface GridProps {
     images: Shot[],
     rowTargetHeight?: number,
     borderOffset?: number,
-    onClick: Function
+    link: boolean,
+    onClick?: Function
 }
 
 const ImageGrid = ({
   images,
   rowTargetHeight = 400,
   borderOffset = 7,
+  link,
   onClick,
 }: GridProps) => {
   const { width } = useViewport();
@@ -126,33 +128,38 @@ const ImageGrid = ({
             <div key={index} className="image-row">
               {row.map((image: Shot, imageIndex: number) => {
                 return (
-                  <div
-                    className="thumbnail-container"
-                    style={{
-                      marginRight: borderOffset,
-                      marginBottom: borderOffset,
-                    }}
-                    key={`thumbnail-container-${imageIndex}`}
-                  >
-                    <img
-                      key={imageIndex}
-                      id={`img-${imageIndex}`}
-                      src={image.imageUrl}
-                      style={{
-                        width: Math.ceil(image.width),
-                        height: image.height,
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => onClick(image)}
-                    />
-                    <div className="image-info">
-                      <div className="game">{image.name}</div>
-                      {/* <div>
-                        <span className="by">by</span>{' '}
-                        <span className="author">{image.author}</span>
-                      </div> */}
-                    </div>
-                  </div>
+                    <>
+                        <div
+                            className="thumbnail-container"
+                            style={{
+                            marginRight: borderOffset,
+                            marginBottom: borderOffset,
+                            }}
+                            key={`thumbnail-container-${imageIndex}`}
+                        >
+                            <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`}>
+                                <img
+                                key={imageIndex}
+                                id={`img-${imageIndex}`}
+                                src={image.imageUrl}
+                                style={{
+                                    width: Math.ceil(image.width),
+                                    height: image.height,
+                                    cursor: 'pointer',
+                                }}
+                                //   onClick={() => onClick(image)}
+                                />
+                            </a>
+                            <div className="image-info">
+                            <div className="game">{image.name}</div>
+                            {/* <div>
+                                <span className="by">by</span>{' '}
+                                <span className="author">{image.author}</span>
+                            </div> */}
+                            </div>
+                        </div>
+                        {/* {imageIndex % 10 && <span>T</span> || null} */}{/* TODO: add a thing between images when day change, and show the day */}
+                    </>
                 );
               })}
             </div>
