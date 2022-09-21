@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import firebaseConfig from "../firebase.js";
+import firebaseConfig from "../firebase";
 import firebase from "firebase/compat/app"
 import "firebase/compat/database"
 import './index.css'
