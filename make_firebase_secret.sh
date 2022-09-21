@@ -4,13 +4,13 @@ if [[ -f firebase.ts ]] ; then rm firebase.ts ; fi
 
 ## then build the file one line at a time:
 
-echo "const firebaseConfig = {" >> firebase.js
-echo "  apiKey: \"${apiKey}\"," >> firebase.js
-echo "  authDomain: \"${authDomain}\"," >> firebase.js
-echo "  databaseURL: \"${databaseURL}\"," >> firebase.js
-echo "  projectId: \"${projectId}\"," >> firebase.js
-echo "  storageBucket: \"${storageBucket}\"," >> firebase.js
-echo "  messagingSenderId: \"${messagingSenderId}\"," >> firebase.js
-echo "  appId: \"${appId}\"," >> firebase.js
-echo "};" >> firebase.js
-echo "export default firebaseConfig" >> firebase.js
+echo "const firebaseConfig = {" >> firebase.ts
+echo "  apiKey: \"${apiKey}\"," >> firebase.ts
+echo "  authDomain: \"${authDomain}\"," >> firebase.ts
+echo "  databaseURL: \"${databaseURL}\"," >> firebase.ts
+echo "  projectId: \"${projectId}\"," >> firebase.ts
+echo "  storageBucket: \"${storageBucket}\"," >> firebase.ts
+echo "  messagingSenderId: \"${messagingSenderId}\"," >> firebase.ts
+echo "  appId: \"${appId}\"," >> firebase.ts
+echo "};" >> firebase.ts
+echo "export default firebaseConfig" >> firebase.ts
