@@ -52,6 +52,8 @@ export const Home = (props: any) => {
                       </span>
                     </div>
                 </>
+            || 
+                <div className="error-message">No id specified</div>
             }
         </div>
     )
