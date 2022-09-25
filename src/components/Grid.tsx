@@ -34,6 +34,7 @@ const ImageGrid = ({
         name: images[i].name,
         width: width,
         height: rowTargetHeight,
+        createdAt: images[i].createdAt
       };
 
       processedImages.push(image);
@@ -127,6 +128,16 @@ const ImageGrid = ({
           return (
             <div key={index} className="image-row">
               {row.map((image: Shot, imageIndex: number) => {
+                let isTomorrow = false
+
+                if (image.createdAt) {
+                  const tomorrow: Date = new Date(Math.floor(image.createdAt) * 1000)
+                  tomorrow.setHours(0, 0, 0, 0)
+                  const nextShot = imageIndex + 1 && rows[index][imageIndex + 1] || index + 1 && rows[index + 1][0] || rows[index][imageIndex]
+                  isTomorrow = new Date(nextShot.createdAt * 1000).getTime() <= Math.floor(tomorrow.getTime()) // if shots date is superior to tomorrow midnight, then true, else false
+                  console.log(isTomorrow)
+                }
+
                 return (
                     <>
                         <div
@@ -135,7 +146,7 @@ const ImageGrid = ({
                             marginRight: borderOffset,
                             marginBottom: borderOffset,
                             }}
-                            key={`thumbnail-container-${imageIndex}`}
+                            key={`thumbnail-container-${index}-${imageIndex}`}
                         >
                             <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`}>
                                 <img
@@ -158,7 +169,9 @@ const ImageGrid = ({
                             </div> */}
                             </div>
                         </div>
-                        {/* {imageIndex % 10 && <span>T</span> || null} */}{/* TODO: add a thing between images when day change, and show the day */}
+                        <span style={{position: "relative"}}>
+                          {isTomorrow && <span className="dateSeparator">{isTomorrow && new Date(image.createdAt! * 1000).toLocaleDateString()}</span>}
+                        </span>
                     </>
                 );
               })}

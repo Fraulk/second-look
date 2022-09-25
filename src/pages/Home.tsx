@@ -15,7 +15,6 @@ export const Home = (props: any) => {
         let respShots = obj;
         respShots = Object.values(respShots)
         setShotCount(respShots.length)
-        console.log(respShots)
         respShots.reverse();
         if (respShots.length > 100) {
           setShots(respShots.splice(0, 100))
