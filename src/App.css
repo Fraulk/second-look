@@ -1,11 +1,19 @@
+@font-face {
+  font-family: 'Galano';
+  src: url('assets/fonts/GalanoGrotesqueAlt-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+  font-family: 'Galano', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
   overflow-x: hidden;
   background-color: #212121;
   color: white;
 }
+
 /* ------------------------- Image Grid/Viewer ------------------------- */
 
 .image-rows {
@@ -143,6 +151,7 @@ body {
 .dateSeparator:hover {
   color: #ff0055;
   font-size: 32px;
+  text-shadow: 0px 0px 7px #000000;
   /* writing-mode: horizontal-tb; */
 }
 
