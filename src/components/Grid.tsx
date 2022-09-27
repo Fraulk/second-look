@@ -129,11 +129,13 @@ const ImageGrid = ({
             <div key={index} className="image-row">
               {row.map((image: Shot, imageIndex: number) => {
                 let isTomorrow = false
+                let isRowEnd = false
 
                 if (image.createdAt) {
                   const tomorrow: Date = new Date(Math.floor(image.createdAt) * 1000)
                   tomorrow.setHours(0, 0, 0, 0)
                   const nextShot = (rows[index][imageIndex + 1] && rows[index][imageIndex + 1]) || (rows[index + 1] && rows[index + 1][0]) || rows[index][imageIndex]
+                  isRowEnd = !!!(rows[index][imageIndex + 1] && !!rows[index][imageIndex + 1])
                   isTomorrow = new Date(nextShot.createdAt * 1000).getTime() <= Math.floor(tomorrow.getTime()) // if shots date is superior to tomorrow midnight, then true, else false
                 }
 
@@ -168,7 +170,7 @@ const ImageGrid = ({
                             </div> */}
                             </div>
                         </div>
-                        <span style={{position: "relative"}}>
+                        <span style={{position: "relative", left: isRowEnd && -12 || "0"}}>
                           {isTomorrow && <span className="dateSeparator">{isTomorrow && new Date(image.createdAt! * 1000).toLocaleDateString()}</span>}
                         </span>
                     </>
