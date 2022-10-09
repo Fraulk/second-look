@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Shot } from '../types';
 import { useViewport } from '../utils/hooks';
 
@@ -116,6 +116,19 @@ const ImageGrid = ({
   };
 
   const renderGrid = (rows: any[]) => {
+    const [lastPosition, setLastPosition] = useState<number>(0)
+    const [lastSeen, setLastSeen] = useState<{row: number, column: number}>()
+
+    const handleSavePosition = (row: number, column: number) => {
+      const rowElement: HTMLElement = document.querySelector(`#row-${row}`)!
+      const lastPos = rowElement.offsetTop - 5 // pixels from the top
+      setLastPosition(lastPos)
+      setLastSeen({row, column})
+      console.log(lastSeen)
+      console.log(lastPos)
+      window.scrollTo(0, lastPos)
+    }
+
     return (
       <div
         className="image-rows"
@@ -126,7 +139,7 @@ const ImageGrid = ({
       >
         {rows.map((row, index) => {
           return (
-            <div key={index} className="image-row">
+            <div key={index} id={`row-${index}`} className="image-row">
               {row.map((image: Shot, imageIndex: number) => {
                 let isTomorrow = false
                 let isRowEnd = false
@@ -150,9 +163,10 @@ const ImageGrid = ({
                             key={`thumbnail-container-${index}-${imageIndex}`}
                         >
                             <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`}>
+                              {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>}
                                 <img
-                                key={imageIndex}
-                                id={`img-${imageIndex}`}
+                                key={`img-${index}-${imageIndex}`}
+                                id={`img-${index}-${imageIndex}`}
                                 src={image.imageUrl}
                                 style={{
                                     width: Math.ceil(image.width),
@@ -162,8 +176,11 @@ const ImageGrid = ({
                                 //   onClick={() => onClick(image)}
                                 />
                             </a>
+                            <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex)}>Mark as seen</div>
                             <div className="image-info">
-                            <div className="game">{image.name}</div>
+                              <div className="game">
+                                {image.name}
+                              </div>
                             {/* <div>
                                 <span className="by">by</span>{' '}
                                 <span className="author">{image.author}</span>
@@ -171,7 +188,7 @@ const ImageGrid = ({
                             </div>
                         </div>
                         <span style={{position: "relative", left: isRowEnd && -12 || "0"}}>
-                          {isTomorrow && <span className="dateSeparator">{isTomorrow && new Date(image.createdAt! * 1000).toLocaleDateString()}</span>}
+                          {isTomorrow && <span className="dateSeparator">{isTomorrow && new Date(image.createdAt! * 1000).toLocaleDateString()}<span className='arrow'>╲╱</span></span>}
                         </span>
                     </>
                 );

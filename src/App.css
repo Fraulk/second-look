@@ -1,13 +1,24 @@
 @font-face {
-  font-family: 'Galano';
-  src: url('assets/fonts/GalanoGrotesqueAlt-Bold.ttf') format('truetype');
+  font-family: 'Galano Grotesque Alt';
+  src: url('assets/fonts/GalanoGrotesqueAlt-Regular.woff2') format('woff2'),
+       url('assets/fonts/GalanoGrotesqueAlt-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Galano Grotesque Alt';
+  src: url('assets/fonts/GalanoGrotesqueAlt-SemiBold.woff2') format('woff2'),
+       url('assets/fonts/GalanoGrotesqueAlt-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
   margin: 0;
-  font-family: 'Galano', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+  font-family: 'Galano Grotesque Alt', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
   overflow-x: hidden;
   background-color: #212121;
@@ -47,6 +58,7 @@ body {
   color: #fff;
   position: absolute;
   bottom: 0;
+  font-weight: 600;
   transition: height 100ms linear;
   z-index: 11;
 }
@@ -60,7 +72,7 @@ body {
 }
 
 .image-row .image-info .author {
-  font-weight: 500;
+  font-weight: 600;
   color: #fff;
 }
 
@@ -143,16 +155,67 @@ body {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   color: #ff005550;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 24px;
-  transition: color .3s ease-out, font-size .1s ease-out;
+  transition: color .2s ease-out, font-size .1s ease-out;
 }
 
 .dateSeparator:hover {
   color: #ff0055;
   font-size: 32px;
   text-shadow: 0px 0px 7px #000000;
-  /* writing-mode: horizontal-tb; */
+}
+
+.dateSeparator:hover .arrow {
+  color: #ff0055;
+  text-shadow: 0px 0px 7px #000000;
+  opacity: 1;
+}
+
+.arrow {
+  display: inline-flex;
+  justify-content: center;
+  position: absolute;
+  left: -24px;
+  text-align: center;
+  font-size: 16px;
+  opacity: 0;
+  transition: color .2s ease-out, opacity .1s ease-out;
+}
+
+.markSeen {
+  height: 20px;
+  padding: 0 6px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -50px;
+  right: 5px;
+  color: #fff;
+  background: #9c0135aa;
+  font-size: 14px;
+  font-weight: 600;
+  transition: top 100ms linear;
+  z-index: 11;
+  cursor: pointer;
+}
+
+.image-row .thumbnail-container:hover .markSeen {
+  top: 5px;
+}
+
+.seen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #000000ad;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 64px;
+  font-weight: 600;
+  color: #9c013563;
 }
 
 .more-shots {
