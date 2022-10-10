@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Shot } from '../types';
 import { useViewport } from '../utils/hooks';
+import { useEffect } from 'react';
 
 interface GridProps {
     images: Shot[],
@@ -116,17 +117,25 @@ const ImageGrid = ({
   };
 
   const renderGrid = (rows: any[]) => {
-    const [lastPosition, setLastPosition] = useState<number>(0)
-    const [lastSeen, setLastSeen] = useState<{row: number, column: number}>()
+    const [lastPosition, setLastPosition] = useState<string | null>(localStorage.getItem("currentScrollPosition"))
+    const [lastSeen, setLastSeen] = useState<{row: number, column: number}>(JSON.parse(localStorage.getItem("currentMarkSeen") ?? "{}"))
+
+    useEffect(() => {
+      const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
+    
+      return () => {
+        clearTimeout(seenScroll)
+      }
+    }, [])
+    
 
     const handleSavePosition = (row: number, column: number) => {
       const rowElement: HTMLElement = document.querySelector(`#row-${row}`)!
       const lastPos = rowElement.offsetTop - 5 // pixels from the top
-      setLastPosition(lastPos)
+      setLastPosition(lastPos.toString())
       setLastSeen({row, column})
-      console.log(lastSeen)
-      console.log(lastPos)
-      window.scrollTo(0, lastPos)
+      localStorage.setItem("currentScrollPosition", lastPos.toString())
+      localStorage.setItem("currentMarkSeen", JSON.stringify({row, column}))
     }
 
     return (
