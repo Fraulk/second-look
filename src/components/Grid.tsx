@@ -120,13 +120,13 @@ const ImageGrid = ({
     const [lastPosition, setLastPosition] = useState<string | null>(localStorage.getItem("currentScrollPosition"))
     const [lastSeen, setLastSeen] = useState<{row: number, column: number}>(JSON.parse(localStorage.getItem("currentMarkSeen") ?? "{}"))
 
-    useEffect(() => {
-      const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
+    // useEffect(() => {
+    //   const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
     
-      return () => {
-        clearTimeout(seenScroll)
-      }
-    }, [])
+    //   return () => {
+    //     clearTimeout(seenScroll)
+    //   }
+    // }, [])
     
 
     const handleSavePosition = (row: number, column: number) => {
@@ -172,7 +172,7 @@ const ImageGrid = ({
                             key={`thumbnail-container-${index}-${imageIndex}`}
                         >
                             <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`}>
-                              {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>}
+                              {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
                                 <img
                                 key={`img-${index}-${imageIndex}`}
                                 id={`img-${index}-${imageIndex}`}
