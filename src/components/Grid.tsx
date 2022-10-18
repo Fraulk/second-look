@@ -118,7 +118,8 @@ const ImageGrid = ({
 
   const renderGrid = (rows: any[]) => {
     const [lastPosition, setLastPosition] = useState<string | null>(localStorage.getItem("currentScrollPosition"))
-    const [lastSeen, setLastSeen] = useState<{row: number, column: number}>(JSON.parse(localStorage.getItem("currentMarkSeen") ?? "{}"))
+    // const [lastSeen, setLastSeen] = useState<{row: number, column: number}>(JSON.parse(localStorage.getItem("currentMarkSeen") ?? "{}"))
+    const [lastSeen, setLastSeen] = useState<number>(Number(localStorage.getItem("currentMarkSeen")) || 0)
 
     // useEffect(() => {
     //   const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
@@ -127,15 +128,15 @@ const ImageGrid = ({
     //     clearTimeout(seenScroll)
     //   }
     // }, [])
-    
+    // TODO: find the last seen shots by createdAt
 
-    const handleSavePosition = (row: number, column: number) => {
+    const handleSavePosition = (row: number, column: number, createdAt: number = 0) => {
       const rowElement: HTMLElement = document.querySelector(`#row-${row}`)!
       const lastPos = rowElement.offsetTop - 5 // pixels from the top
       setLastPosition(lastPos.toString())
-      setLastSeen({row, column})
+      setLastSeen(createdAt)
       localStorage.setItem("currentScrollPosition", lastPos.toString())
-      localStorage.setItem("currentMarkSeen", JSON.stringify({row, column}))
+      localStorage.setItem("currentMarkSeen", createdAt.toString())
     }
 
     return (
@@ -173,6 +174,7 @@ const ImageGrid = ({
                         >
                             <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
+                              {lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen">SEEN</div> || ""}
                                 <img
                                 key={`img-${index}-${imageIndex}`}
                                 id={`img-${index}-${imageIndex}`}
@@ -185,7 +187,7 @@ const ImageGrid = ({
                                 //   onClick={() => onClick(image)}
                                 />
                             </a>
-                            <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex)}>Mark as seen</div>
+                            <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as seen</div>
                             <div className="image-info">
                               <div className="game">
                                 {image.name}
