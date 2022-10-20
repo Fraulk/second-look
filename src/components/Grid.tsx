@@ -121,22 +121,23 @@ const ImageGrid = ({
     // const [lastSeen, setLastSeen] = useState<{row: number, column: number}>(JSON.parse(localStorage.getItem("currentMarkSeen") ?? "{}"))
     const [lastSeen, setLastSeen] = useState<number>(Number(localStorage.getItem("currentMarkSeen")) || 0)
 
-    // useEffect(() => {
-    //   const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
+    useEffect(() => {
+      const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
     
-    //   return () => {
-    //     clearTimeout(seenScroll)
-    //   }
-    // }, [])
+      return () => {
+        clearTimeout(seenScroll)
+      }
+    }, [])
     // TODO: find the last seen shots by createdAt
 
     const handleSavePosition = (row: number, column: number, createdAt: number = 0) => {
       const rowElement: HTMLElement = document.querySelector(`#row-${row}`)!
       const lastPos = rowElement.offsetTop - 5 // pixels from the top
-      setLastPosition(lastPos.toString())
-      setLastSeen(createdAt)
-      localStorage.setItem("currentScrollPosition", lastPos.toString())
-      localStorage.setItem("currentMarkSeen", createdAt.toString())
+      const markAsUnseen = lastSeen == createdAt
+      setLastPosition(!markAsUnseen ? lastPos.toString() : "0")
+      setLastSeen(!markAsUnseen ? createdAt : 0)
+      localStorage.setItem("currentScrollPosition", !markAsUnseen ? lastPos.toString() : "0")
+      localStorage.setItem("currentMarkSeen", !markAsUnseen ? createdAt.toString() : "0")
     }
 
     return (
@@ -187,7 +188,7 @@ const ImageGrid = ({
                                 //   onClick={() => onClick(image)}
                                 />
                             </a>
-                            <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as seen</div>
+                            <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>
                             <div className="image-info">
                               <div className="game">
                                 {image.name}
