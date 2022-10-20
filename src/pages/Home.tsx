@@ -1,13 +1,16 @@
 import { getDatabase, ref, child, get } from "firebase/database";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
 import { Shot } from "../types";
 
 export const Home = (props: any) => {
     const [shots, setShots] = useState([])
     const [allShots, setAllShots] = useState([])
+    const [filteredShots, setFilteredShots] = useState<Shot[] | undefined>(undefined)
     const [shotCount, setShotCount] = useState(0)
     const [link, setLink] = useState(false)
+    const [authorsSearch, setAuthorsSearch] = useState<string[]>([])
     const params = new URLSearchParams(window.location.search);
     const dbRef = ref(getDatabase());
 
@@ -32,11 +35,26 @@ export const Home = (props: any) => {
     
     const handleLoadMore = () => setShots(shots.concat(allShots.splice(0, 100)))
 
+    const onFilter = (term: any) => {
+      if(!!!term) {
+        setAuthorsSearch([])
+        setFilteredShots(undefined)
+        return 
+      }
+      // console.log(term)
+      const everyShots = [...shots, ...allShots]
+      const fltrdShots = everyShots.filter((item: Shot) => item.name.toLowerCase().includes(term.toLowerCase()))
+      const authors = [...new Set(fltrdShots.map((item: Shot) => item.name))]
+      setAuthorsSearch(authors)
+      setFilteredShots(fltrdShots)
+    }
+
     return (
         <div className="home">
+          <Filter autocomplete={authorsSearch} onFilter={onFilter} />
             {shots && shots.length > 0 && 
                 <>
-                    <ImageGrid images={shots} borderOffset={5} link={link} />
+                    <ImageGrid images={filteredShots || shots} borderOffset={5} link={link} />
                     {shotCount > 100 && allShots.length > 0 && 
                         <div className="more-shots" onClick={handleLoadMore}>
                         Load more
