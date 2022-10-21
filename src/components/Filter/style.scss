@@ -70,7 +70,7 @@
 
 		.autocomplete-search {
 			display: none;
-			transform: translateY(-10rem);
+			// transform: translateY(-10rem);
 			transition: transform .2s cubic-bezier(0.4, 0.0, 0.2, 1);
 		}
 
@@ -90,6 +90,7 @@
 			z-index: 2;
 			pointer-events: all;
 			overflow: hidden;
+			animation: slideInFromTop .3s cubic-bezier(0.4, 0.0, 0.2, 1);
 
 			.autocomplete-element {
 				padding: 4px 1rem;
@@ -99,6 +100,48 @@
 
 			.autocomplete-element:hover {
 				background-color: #cacacab1;
+			}
+		}
+
+		.cross { display: none; }
+		input:focus ~ .cross,
+		&:focus .cross {
+			position: absolute;
+			top: 1px;
+			right: 0;
+			display: block;
+			font-size: 1.2rem;
+			line-height: 1rem;
+			padding: 1rem 1rem 17px 2rem;
+			color: black;
+			// width: 25rem;
+			transform: translateX(3rem);
+			background-color: white;
+			border-radius: 0 25px 25px 0;
+			box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.12),
+				0 1px 8px 0 rgba(0, 0, 0, 0.20);
+			z-index: 2;
+			pointer-events: all;
+			overflow: hidden;
+			cursor: pointer;
+			animation: slideInFromLeft .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+		}
+
+		@keyframes slideInFromLeft {
+			0% {
+				transform: translateX(0);
+			}
+			100% {
+				transform: translateX(3rem);
+			}
+		}
+
+		@keyframes slideInFromTop {
+			0% {
+				padding-top: 0;
+			}
+			100% {
+				padding-top: 2.25rem;
 			}
 		}
 	}

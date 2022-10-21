@@ -23,7 +23,11 @@ export const Filter = (props: {autocomplete: string[], onFilter: (props: any) =>
         onFilter(newInput)
     }
 
-    // TODO: add a cross to remove text
+    const handleClearSearch = () => {
+        input.current!.value = ""
+        input.current!.focus()
+        onFilter("")
+    }
 
     useKeyPress(['k'], "ctrlKey", () => input.current?.focus());
     useKeyPress(['Escape'], "", () => input.current?.blur());
@@ -43,7 +47,8 @@ export const Filter = (props: {autocomplete: string[], onFilter: (props: any) =>
                             <div className="autocomplete-element" onClick={() => handleInputChange(item)} key={i}>{item}</div>
                         ))}
                     </div>
-                    }
+                }
+                {input.current?.value && <div className="cross" onClick={handleClearSearch}>✕</div>}
             </div>
         </div>
     )
