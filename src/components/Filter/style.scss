@@ -90,7 +90,6 @@
 			z-index: 2;
 			pointer-events: all;
 			overflow: hidden;
-			animation: slideInFromTop .3s cubic-bezier(0.4, 0.0, 0.2, 1);
 
 			.autocomplete-element {
 				padding: 4px 1rem;
@@ -124,25 +123,6 @@
 			pointer-events: all;
 			overflow: hidden;
 			cursor: pointer;
-			animation: slideInFromLeft .3s cubic-bezier(0.4, 0.0, 0.2, 1);
-		}
-
-		@keyframes slideInFromLeft {
-			0% {
-				transform: translateX(0);
-			}
-			100% {
-				transform: translateX(3rem);
-			}
-		}
-
-		@keyframes slideInFromTop {
-			0% {
-				padding-top: 0;
-			}
-			100% {
-				padding-top: 2.25rem;
-			}
 		}
 	}
 }
