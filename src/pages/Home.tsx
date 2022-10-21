@@ -55,7 +55,7 @@ export const Home = (props: any) => {
             {shots && shots.length > 0 && 
                 <>
                     <ImageGrid images={filteredShots || shots} borderOffset={5} link={link} />
-                    {shotCount > 100 && allShots.length > 0 && 
+                    {shotCount > 100 && allShots.length > 0 && !filteredShots &&
                         <div className="more-shots" onClick={handleLoadMore}>
                         Load more
                         </div>

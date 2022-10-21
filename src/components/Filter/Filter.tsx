@@ -8,7 +8,11 @@ export const Filter = (props: {autocomplete: string[], onFilter: (props: any) =>
     let timer: any = undefined
 
     const handleFilter = (term: string) => {
-        if (term.length <= 1) return onFilter("")
+        if (term.length <= 1) {
+            clearTimeout(timer);
+            timer = setTimeout(() => onFilter(""), 500);
+            return
+        }
         clearTimeout(timer);
         timer = setTimeout(() => onFilter(term), 500);
     }
@@ -18,8 +22,7 @@ export const Filter = (props: {autocomplete: string[], onFilter: (props: any) =>
         input.current!.focus()
         onFilter(newInput)
     }
-    
-    // TODO: remove "load more" button on search
+
     // TODO: add a cross to remove text
 
     useKeyPress(['k'], "ctrlKey", () => input.current?.focus());
