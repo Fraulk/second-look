@@ -34,7 +34,8 @@
 			cursor: pointer;
 		}
 
-		input:focus {
+		input:focus,
+		&:focus input {
 			position: relative;
 			color: black;
 			width: 25rem;
@@ -48,13 +49,15 @@
 		}
 
 		.shortcuts {display: none;}
-		input:focus + .shortcuts {
+		input:focus + .shortcuts,
+		&:focus .shortcuts {
 			position: absolute;
 			top: .8rem;
 			right: 1rem;
 			display: flex;
 			gap: .25rem;
 			color: black;
+			z-index: 1;
 			
 			.key {
 				padding: 4px 6px 6px;
@@ -70,11 +73,13 @@
 			transform: translateY(-10rem);
 			transition: transform .2s cubic-bezier(0.4, 0.0, 0.2, 1);
 		}
-		input:focus ~ .autocomplete-search {
+
+		input:focus ~ .autocomplete-search,
+		&:focus .autocomplete-search {
 			display: block;
 			color: black;
 			// width: 25rem;
-			padding: .5rem 1rem .75rem;
+			padding: .5rem 0 .5rem;
 			padding-top: 2.25rem;
 			transform: translateY(-2rem);
 			background-color: white;
@@ -83,6 +88,17 @@
 				0 1px 8px 0 rgba(0, 0, 0, 0.20);
 			z-index: 0;
 			pointer-events: all;
+			overflow: hidden;
+
+			.autocomplete-element {
+				padding: 4px 1rem;
+				cursor: pointer;
+				transition: background-color .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+			}
+
+			.autocomplete-element:hover {
+				background-color: #cacacab1;
+			}
 		}
 	}
 }
