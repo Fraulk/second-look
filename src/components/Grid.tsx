@@ -175,7 +175,7 @@ const ImageGrid = ({
                         >
                             <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`} onDragStart={(e) => e.preventDefault()}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
-                              {lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen">SEEN</div> || ""}
+                              {lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>SEEN</div> || ""}
                                 {/* <img
                                   key={`img-${index}-${imageIndex}`}
                                   id={`img-${index}-${imageIndex}`}
