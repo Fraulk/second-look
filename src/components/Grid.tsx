@@ -173,20 +173,32 @@ const ImageGrid = ({
                             }}
                             key={`thumbnail-container-${index}-${imageIndex}`}
                         >
-                            <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`}>
+                            <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`} onDragStart={(e) => e.preventDefault()}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
                               {lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen">SEEN</div> || ""}
-                                <img
-                                key={`img-${index}-${imageIndex}`}
-                                id={`img-${index}-${imageIndex}`}
-                                src={image.imageUrl}
-                                style={{
-                                    width: Math.ceil(image.width),
-                                    height: image.height,
-                                    cursor: 'pointer',
-                                }}
+                                {/* <img
+                                  key={`img-${index}-${imageIndex}`}
+                                  id={`img-${index}-${imageIndex}`}
+                                  src={image.imageUrl}
+                                  style={{
+                                      width: Math.ceil(image.width),
+                                      height: image.height,
+                                      cursor: 'pointer',
+                                  }}
+                                  onContextMenu={(e) => e.preventDefault()}
+                                  onDragStart={(e) => e.preventDefault()}
                                 //   onClick={() => onClick(image)}
-                                />
+                                /> */}
+                                <div
+                                  style={{
+                                    backgroundImage: `url("${image.imageUrl}")`,
+                                    backgroundSize: `${image.width}px ${image.height}px`,
+                                    width: image.width,
+                                    height: image.height,
+                                  }}
+                                  onContextMenu={(e) => e.preventDefault()}
+                                  onDragStart={(e) => e.preventDefault()}
+                                ></div>
                             </a>
                             <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>
                             <div className="image-info">
