@@ -120,8 +120,14 @@ const ImageGrid = ({
     const [lastPosition, setLastPosition] = useState<string | null>(localStorage.getItem("currentScrollPosition"))
     // const [lastSeen, setLastSeen] = useState<{row: number, column: number}>(JSON.parse(localStorage.getItem("currentMarkSeen") ?? "{}"))
     const [lastSeen, setLastSeen] = useState<number>(Number(localStorage.getItem("currentMarkSeen")) || 0)
+    const params = new URLSearchParams(window.location.search);
+    const isTodayGallery = params.get("id") == "873628046194778123"
 
     useEffect(() => {
+      if (!isTodayGallery) {
+        setLastSeen(0)
+        return
+      }
       const lastPositionRow = rows.findIndex(row => row.find((image: any) => image.createdAt == Number(lastSeen)))
       let lastPos = 0
       const seenScroll = setTimeout(() => {
@@ -136,7 +142,6 @@ const ImageGrid = ({
         lastPositionRow && clearTimeout(seenScroll)
       }
     }, [])
-    // TODO: find the last seen shots by createdAt
 
     const handleSavePosition = (row: number, column: number, createdAt: number = 0) => {
       const rowElement: HTMLElement = document.querySelector(`#row-${row}`)!
@@ -208,7 +213,7 @@ const ImageGrid = ({
                                   onDragStart={(e) => e.preventDefault()}
                                 ></div>
                             </a>
-                            <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>
+                            {isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
                             <div className="image-info">
                               <div className="game">
                                 {image.name}
