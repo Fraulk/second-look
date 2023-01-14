@@ -2,6 +2,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import { useCallback, useEffect, useState } from "react";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
+import { Settings } from "../components/Settings/Settings";
 import { Shot } from "../types";
 
 export const Home = (props: any) => {
@@ -60,14 +61,15 @@ export const Home = (props: any) => {
                         Load more
                         </div>
                     }
-                    <div className="selectLink">
+                    {/* <div className="selectLink">
                       <span onClick={() => setLink(true)} className={link ? 'selectedLink' : ''}>
                         HTTP link
                       </span>
                       <span onClick={() => setLink(false)} className={!link ? 'selectedLink' : ''}>
                         App link
                       </span>
-                    </div>
+                    </div> */}
+                    <Settings />
                 </>
             || 
                 <div className="error-message">No id specified</div>
