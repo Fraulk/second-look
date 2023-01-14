@@ -122,10 +122,18 @@ const ImageGrid = ({
     const [lastSeen, setLastSeen] = useState<number>(Number(localStorage.getItem("currentMarkSeen")) || 0)
 
     useEffect(() => {
-      const seenScroll = setTimeout(() => window.scrollTo({top: Number(lastPosition) ?? 0, behavior: "smooth"}), 500);
-    
+      const lastPositionRow = rows.findIndex(row => row.find((image: any) => image.createdAt == Number(lastSeen)))
+      let lastPos = 0
+      const seenScroll = setTimeout(() => {
+        if (lastPositionRow) {
+          console.log(lastPositionRow)
+          const rowElement: HTMLElement = document.querySelector(`#row-${lastPositionRow}`)!
+          lastPos = rowElement.offsetTop - 5 // pixels from the top
+        }
+        const seenScroll = lastPositionRow ? window.scrollTo({top: lastPos || Number(lastPosition) || 0, behavior: "smooth"}) : undefined
+      }, 500);
       return () => {
-        clearTimeout(seenScroll)
+        lastPositionRow && clearTimeout(seenScroll)
       }
     }, [])
     // TODO: find the last seen shots by createdAt
