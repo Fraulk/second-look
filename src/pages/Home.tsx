@@ -4,7 +4,7 @@ import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
 import { Settings } from "../components/Settings/Settings";
 import { Shot } from "../types";
-import { initialState, reducer } from "../utils/reducer";
+import { createInitialState, initialState, reducer } from "../utils/reducer";
 
 export const Home = (props: any) => {
     const [shots, setShots] = useState([])
@@ -14,7 +14,7 @@ export const Home = (props: any) => {
     const [authorsSearch, setAuthorsSearch] = useState<string[]>([])
     const params = new URLSearchParams(window.location.search);
     const dbRef = ref(getDatabase());
-    const [state, dispatch] = useReducer(reducer, initialState)
+    const [state, dispatch] = useReducer(reducer, initialState, createInitialState)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;

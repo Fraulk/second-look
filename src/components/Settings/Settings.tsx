@@ -11,7 +11,6 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
 
     const handleSettingChange = (e: any) => {
         dispatch({type: e.target.name, payload: e.target.checked})
-        console.log(state)
     }
 
     return (

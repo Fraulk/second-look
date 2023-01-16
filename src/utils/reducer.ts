@@ -10,16 +10,26 @@ export const initialState = {
     scrollToLastSeen: true,
 }
 
+export const createInitialState = (initialState: SettingState) => {
+    const localeSettings = localStorage.getItem("settings")
+    return (localeSettings != null) ? JSON.parse(localeSettings) : initialState
+}
+
+const saveCurrentState = (state: SettingState) => {
+    localStorage.setItem("settings", JSON.stringify(state))
+    return state
+}
+
 export const reducer = (state: SettingState, action: {type: string, payload: any}) => {
     switch (action.type) {
         case "markAsSeen":
-            return {...state, markAsSeen: action.payload}
+            return saveCurrentState({...state, markAsSeen: action.payload})
 
         case "linkApp":
-            return {...state, linkApp: action.payload}
+            return saveCurrentState({...state, linkApp: action.payload})
 
         case "scrollToLastSeen":
-            return {...state, scrollToLastSeen: action.payload}
+            return saveCurrentState({...state, scrollToLastSeen: action.payload})
     
         default:
             return {...state}
