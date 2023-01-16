@@ -129,6 +129,7 @@ const ImageGrid = ({
         setLastSeen(0)
         return
       }
+      if (!state.scrollToLastSeen) return
       const lastPositionRow = rows.findIndex(row => row.find((image: any) => image.createdAt == Number(lastSeen)))
       let lastPos = 0
       const seenScroll = setTimeout(() => {
