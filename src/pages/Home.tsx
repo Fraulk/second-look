@@ -1,9 +1,10 @@
 import { getDatabase, ref, child, get } from "firebase/database";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
 import { Settings } from "../components/Settings/Settings";
 import { Shot } from "../types";
+import { initialState, reducer } from "../utils/reducer";
 
 export const Home = (props: any) => {
     const [shots, setShots] = useState([])
@@ -14,6 +15,7 @@ export const Home = (props: any) => {
     const [authorsSearch, setAuthorsSearch] = useState<string[]>([])
     const params = new URLSearchParams(window.location.search);
     const dbRef = ref(getDatabase());
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;
@@ -69,7 +71,7 @@ export const Home = (props: any) => {
                         App link
                       </span>
                     </div> */}
-                    <Settings />
+                    <Settings state={state} dispatch={dispatch} />
                 </>
             || 
                 <div className="error-message">No id specified</div>

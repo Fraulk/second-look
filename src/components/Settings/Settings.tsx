@@ -1,6 +1,18 @@
+import { ChangeEvent, Dispatch } from "react";
+import { SettingState } from "../../utils/reducer";
 import "./style.scss"
 
-export const Settings = (props: any) => {
+interface SettingsProps {
+    state: SettingState;
+    dispatch: Dispatch<{ type: string; payload: any; }>;
+}
+
+export const Settings = ({state, dispatch}: SettingsProps) => {
+
+    const handleSettingChange = (e: any) => {
+        dispatch({type: e.target.name, payload: e.target.checked})
+        console.log(state)
+    }
 
     return (
         <div className="Settings">
@@ -8,7 +20,14 @@ export const Settings = (props: any) => {
             <div className="setting">
                 Show "Mark seen"
                 <label className="setting-switch">
-                    <input type="checkbox" />
+                    <input type="checkbox" name="markAsSeen" defaultChecked={state.markAsSeen} onChange={handleSettingChange} />
+                    <span className="slider round"></span>
+                </label>
+            </div>
+            <div className="setting">
+                Link discord {state.linkApp ? "app" : "web"}
+                <label className="setting-switch">
+                    <input type="checkbox" name="linkApp" defaultChecked={state.linkApp} onChange={handleSettingChange} />
                     <span className="slider round"></span>
                 </label>
             </div>
