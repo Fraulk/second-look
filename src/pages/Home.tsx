@@ -11,7 +11,6 @@ export const Home = (props: any) => {
     const [allShots, setAllShots] = useState([])
     const [filteredShots, setFilteredShots] = useState<Shot[] | undefined>(undefined)
     const [shotCount, setShotCount] = useState(0)
-    const [link, setLink] = useState(false)
     const [authorsSearch, setAuthorsSearch] = useState<string[]>([])
     const params = new URLSearchParams(window.location.search);
     const dbRef = ref(getDatabase());
@@ -57,7 +56,7 @@ export const Home = (props: any) => {
           <Filter autocomplete={authorsSearch} onFilter={onFilter} />
             {shots && shots.length > 0 && 
                 <>
-                    <ImageGrid images={filteredShots || shots} borderOffset={5} link={link} />
+                    <ImageGrid images={filteredShots || shots} borderOffset={5} state={state} />
                     {shotCount > 100 && allShots.length > 0 && !filteredShots &&
                         <div className="more-shots" onClick={handleLoadMore}>
                         Load more

@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Shot } from '../types';
 import { useViewport } from '../utils/hooks';
 import { useEffect } from 'react';
+import { SettingState } from '../utils/reducer';
 
 interface GridProps {
     images: Shot[],
     rowTargetHeight?: number,
     borderOffset?: number,
-    link: boolean,
+    state: SettingState,
     onClick?: Function
 }
 
@@ -15,7 +16,7 @@ const ImageGrid = ({
   images,
   rowTargetHeight = 400,
   borderOffset = 7,
-  link,
+  state,
   onClick,
 }: GridProps) => {
   const { width } = useViewport();
@@ -186,9 +187,9 @@ const ImageGrid = ({
                             }}
                             key={`thumbnail-container-${index}-${imageIndex}`}
                         >
-                            <a href={`${!link ? 'discord://' : ''}${image.messageUrl}`} onDragStart={(e) => e.preventDefault()}>
+                            <a href={`${state.linkApp ? 'discord://' : ''}${image.messageUrl}`} onDragStart={(e) => e.preventDefault()}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
-                              {lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>SEEN</div> || ""}
+                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>SEEN</div> || ""}
                                 {/* <img
                                   key={`img-${index}-${imageIndex}`}
                                   id={`img-${index}-${imageIndex}`}
@@ -213,7 +214,7 @@ const ImageGrid = ({
                                   onDragStart={(e) => e.preventDefault()}
                                 ></div>
                             </a>
-                            {isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
+                            {state.markAsSeen && isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
                             <div className="image-info">
                               <div className="game">
                                 {image.name}
