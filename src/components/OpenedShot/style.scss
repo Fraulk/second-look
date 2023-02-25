@@ -1,0 +1,21 @@
+.OpenedShot {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 6;
+
+    .opened-image-wrapper {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #000000b1;
+
+        .opened-image-container {
+            max-width: 95%;
+            max-height: 95%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+    }
+}

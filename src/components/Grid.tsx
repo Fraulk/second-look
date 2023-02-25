@@ -10,6 +10,7 @@ interface GridProps {
     borderOffset?: number,
     state: SettingState,
     onClick?: Function
+    setOpenShot: Function
 }
 
 const ImageGrid = ({
@@ -18,6 +19,7 @@ const ImageGrid = ({
   borderOffset = 7,
   state,
   onClick,
+  setOpenShot
 }: GridProps) => {
   const { width } = useViewport();
   const maxWidth = width - borderOffset * 2;
@@ -134,7 +136,6 @@ const ImageGrid = ({
       let lastPos = 0
       const seenScroll = setTimeout(() => {
         if (lastPositionRow) {
-          console.log(lastPositionRow)
           const rowElement: HTMLElement = document.querySelector(`#row-${lastPositionRow}`)!
           lastPos = rowElement.offsetTop - 5 // pixels from the top
         }
@@ -153,6 +154,13 @@ const ImageGrid = ({
       setLastSeen(!markAsUnseen ? createdAt : 0)
       localStorage.setItem("currentScrollPosition", !markAsUnseen ? lastPos.toString() : "0")
       localStorage.setItem("currentMarkSeen", !markAsUnseen ? createdAt.toString() : "0")
+    }
+
+    const handleClick = (image: Shot, index: number, imageIndex: number, clickType: 0 | 1) => {
+      if (state.openLinkClick == clickType)
+        document.location.href = `${state.linkApp ? 'discord://' : ''}${image.messageUrl}`
+      else
+        setOpenShot(rows[index][imageIndex])
     }
 
     return (
@@ -181,16 +189,17 @@ const ImageGrid = ({
                 return (
                     <>
                         <div
+                            id={`thumbnail-container-${index}-${imageIndex}`}
                             className="thumbnail-container"
                             style={{
-                            marginRight: borderOffset,
-                            marginBottom: borderOffset,
+                              marginRight: borderOffset,
+                              marginBottom: borderOffset,
                             }}
                             key={`thumbnail-container-${index}-${imageIndex}`}
                         >
-                            <a href={`${state.linkApp ? 'discord://' : ''}${image.messageUrl}`} onDragStart={(e) => e.preventDefault()}>
+                            <div onClick={(e) => handleClick(image, index, imageIndex, 0)} onContextMenu={(e) => handleClick(image, index, imageIndex, 1)} onDragStart={(e) => e.preventDefault()}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
-                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>SEEN</div> || ""}
+                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onDragStart={(e) => e.preventDefault()}>SEEN</div> || ""}
                                 {/* <img
                                   key={`img-${index}-${imageIndex}`}
                                   id={`img-${index}-${imageIndex}`}
@@ -214,7 +223,7 @@ const ImageGrid = ({
                                   onContextMenu={(e) => e.preventDefault()}
                                   onDragStart={(e) => e.preventDefault()}
                                 ></div>
-                            </a>
+                            </div>
                             {state.markAsSeen && isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
                             <div className="image-info">
                               <div className="game">

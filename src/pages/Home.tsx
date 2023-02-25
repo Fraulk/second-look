@@ -2,6 +2,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
+import OpenedShot from "../components/OpenedShot/OpenedShot";
 import { Settings } from "../components/Settings/Settings";
 import { Shot } from "../types";
 import { createInitialState, initialState, reducer } from "../utils/reducer";
@@ -15,6 +16,7 @@ export const Home = (props: any) => {
     const params = new URLSearchParams(window.location.search);
     const dbRef = ref(getDatabase());
     const [state, dispatch] = useReducer(reducer, initialState, createInitialState)
+    const [openShot, setOpenShot] = useState(null)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;
@@ -56,7 +58,8 @@ export const Home = (props: any) => {
           <Filter autocomplete={authorsSearch} onFilter={onFilter} />
             {shots && shots.length > 0 && 
                 <>
-                    <ImageGrid images={filteredShots || shots} borderOffset={5} state={state} />
+                    {openShot != null && <OpenedShot shot={openShot} closeShot={() => setOpenShot(null)} state={state} />}
+                    <ImageGrid images={filteredShots || shots} borderOffset={5} state={state} setOpenShot={setOpenShot} />
                     {shotCount > 100 && allShots.length > 0 && !filteredShots &&
                         <div className="more-shots" onClick={handleLoadMore}>
                         Load more

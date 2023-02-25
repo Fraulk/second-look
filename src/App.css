@@ -47,6 +47,7 @@ body {
   background-size: 300%;
   animation: imageAppear 300ms forwards cubic-bezier(.22,.61,.36,1),
              gradientAnim 2s ease infinite;
+  cursor: pointer;
 }
 
 .image-row .image-info {

@@ -2,12 +2,14 @@ export interface SettingState {
     markAsSeen: boolean;
     linkApp: boolean;
     scrollToLastSeen: boolean;
+    openLinkClick: number; // 0 | 1
 }
 
 export const initialState = {
     markAsSeen: true,
     linkApp: true,
     scrollToLastSeen: true,
+    openLinkClick: 0,
 }
 
 export const createInitialState = (initialState: SettingState) => {
@@ -30,6 +32,9 @@ export const reducer = (state: SettingState, action: {type: string, payload: any
 
         case "scrollToLastSeen":
             return saveCurrentState({...state, scrollToLastSeen: action.payload})
+
+        case "openLinkClick":
+            return saveCurrentState({...state, openLinkClick: action.payload})
     
         default:
             return {...state}

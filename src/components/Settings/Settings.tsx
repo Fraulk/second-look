@@ -37,6 +37,13 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
                     <span className="slider round"></span>
                 </label>
             </div>
+            <div className="setting">
+                {state.openLinkClick ? "Right" : "Left"} click to open links
+                <label className="setting-switch">
+                    <input type="checkbox" name="openLinkClick" defaultChecked={!!state.openLinkClick} onChange={handleSettingChange} />
+                    <span className="slider round"></span>
+                </label>
+            </div>
         </div>
     )
 }
