@@ -58,13 +58,13 @@ export const useKeyPress = (keys: any, specialKey: string, callback: any, node =
   }, [handleKeyPress, node]);
 };
 
-export const useOutsideAlerter = (ref: any, callback: Function) => {
+export const useOutsideAlerter = (refs: any, callback: Function) => {
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
      */
     function handleClickOutside(event: any) {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (refs && !refs.some((ref: any) => ref.current && ref.current.contains(event.target))) {
         callback()
       }
     }
@@ -74,5 +74,5 @@ export const useOutsideAlerter = (ref: any, callback: Function) => {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [refs]);
 }

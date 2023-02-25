@@ -58,7 +58,9 @@ export const Home = (props: any) => {
           <Filter autocomplete={authorsSearch} onFilter={onFilter} />
             {shots && shots.length > 0 && 
                 <>
-                    {openShot != null && <OpenedShot shot={openShot} closeShot={() => setOpenShot(null)} state={state} />}
+                    {openShot != null && 
+                      <OpenedShot shot={openShot} closeShot={() => setOpenShot(null)} state={state} images={filteredShots || shots} />
+                    }
                     <ImageGrid images={filteredShots || shots} borderOffset={5} state={state} setOpenShot={setOpenShot} />
                     {shotCount > 100 && allShots.length > 0 && !filteredShots &&
                         <div className="more-shots" onClick={handleLoadMore}>

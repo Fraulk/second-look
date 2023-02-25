@@ -17,5 +17,22 @@
             background-size: 100%;
             background-repeat: no-repeat;
         }
+
+        .opened-image-prev,
+        .opened-image-next {
+            position: absolute;
+            width: 5%;
+            height: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5rem;
+            color: rebeccapurple;
+            cursor: pointer;
+        }
+
+        .opened-image-prev {left: 0}
+        .opened-image-next {right: 0}
+
     }
 }
