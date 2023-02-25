@@ -199,7 +199,7 @@ const ImageGrid = ({
                         >
                             <div onClick={(e) => handleClick(image, index, imageIndex, 0)} onContextMenu={(e) => handleClick(image, index, imageIndex, 1)} onDragStart={(e) => e.preventDefault()}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
-                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onDragStart={(e) => e.preventDefault()}>SEEN</div> || ""}
+                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onDragStart={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>SEEN</div> || ""}
                                 {/* <img
                                   key={`img-${index}-${imageIndex}`}
                                   id={`img-${index}-${imageIndex}`}
