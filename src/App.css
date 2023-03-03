@@ -62,6 +62,7 @@ body {
   font-weight: 600;
   transition: height 100ms linear;
   z-index: 11;
+  cursor: default;
 }
 
 .image-row .thumbnail-container:hover .image-info {
