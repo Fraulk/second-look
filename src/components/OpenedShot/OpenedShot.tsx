@@ -29,18 +29,16 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
             closeShot()
     }
 
-    const prevShot = () => setCurrentShot(images[currentShotIndex - 1])
+    const prevShot = () => currentShotIndex - 1 >= 0 && setCurrentShot(images[currentShotIndex - 1])
 
-    const nextShot = () => setCurrentShot(images[currentShotIndex + 1])
+    const nextShot = () => currentShotIndex + 1 < images.length && setCurrentShot(images[currentShotIndex + 1])
 
     const handleKeyboard = (event: any) => {
           const { key } = event;
           switch (key) {
             case 'ArrowLeft':
-                if (currentShotIndex - 1 < 0) return
                 return prevShot();
             case 'ArrowRight':
-                if (currentShotIndex + 1 > images.length - 1) return
                 return nextShot();
             case 'Escape':
               return closeShot();
@@ -49,9 +47,20 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
           }
         }
 
+    const handleScroll = (event: any) => {
+        event.preventDefault()
+        event.stopPropagation()
+        event.wheelDelta > 0 ? prevShot() : nextShot()
+        return false
+    }
+
       useEffect(() => {
         window.addEventListener('keyup', handleKeyboard);
-        return () => window.removeEventListener('keyup', handleKeyboard);
+        window.addEventListener('wheel', handleScroll, {passive: false});
+        return () => {
+            window.removeEventListener('keyup', handleKeyboard);
+            window.removeEventListener('wheel', handleScroll)
+        }
       }, [handleKeyboard]);
 
     return (
@@ -71,7 +80,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
                   onDragStart={(e) => e.preventDefault()}
                   ref={imgRef}
                 />
-                {currentShotIndex + 1 <= images.length - 1 &&
+                {currentShotIndex + 1 < images.length &&
                     <div className="opened-image-next" onClick={nextShot} ref={arrowRight}><RightArrow/></div>
                 }
             </div>
