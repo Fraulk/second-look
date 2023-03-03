@@ -34,18 +34,18 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
     const nextShot = () => currentShotIndex + 1 < images.length && setCurrentShot(images[currentShotIndex + 1])
 
     const handleKeyboard = (event: any) => {
-          const { key } = event;
-          switch (key) {
+        const { key } = event;
+        switch (key) {
             case 'ArrowLeft':
                 return prevShot();
             case 'ArrowRight':
                 return nextShot();
             case 'Escape':
-              return closeShot();
+                return closeShot();
             default:
-              return false;
-          }
+                return false;
         }
+    }
 
     const handleScroll = (event: any) => {
         event.preventDefault()
@@ -54,14 +54,14 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
         return false
     }
 
-      useEffect(() => {
+    useEffect(() => {
         window.addEventListener('keyup', handleKeyboard);
-        window.addEventListener('wheel', handleScroll, {passive: false});
+        window.addEventListener('wheel', handleScroll, { passive: false });
         return () => {
             window.removeEventListener('keyup', handleKeyboard);
             window.removeEventListener('wheel', handleScroll)
         }
-      }, [handleKeyboard]);
+    }, [handleKeyboard]);
 
     return (
         <div className="OpenedShot">
@@ -72,16 +72,16 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
                     <div className="opened-image-prev" onClick={prevShot} ref={arrowLeft}><LeftArrow /></div>
                 }
                 <img
-                  src={currentShot.imageUrl}
-                  alt=""
-                  className="opened-image-container"
-                  onClick={() => handleClick(0)}
-                  onContextMenu={(e) => handleClick(1, e)}
-                  onDragStart={(e) => e.preventDefault()}
-                  ref={imgRef}
+                    src={currentShot.imageUrl}
+                    alt=""
+                    className="opened-image-container"
+                    onClick={() => handleClick(0)}
+                    onContextMenu={(e) => handleClick(1, e)}
+                    onDragStart={(e) => e.preventDefault()}
+                    ref={imgRef}
                 />
                 {currentShotIndex + 1 < images.length &&
-                    <div className="opened-image-next" onClick={nextShot} ref={arrowRight}><RightArrow/></div>
+                    <div className="opened-image-next" onClick={nextShot} ref={arrowRight}><RightArrow /></div>
                 }
             </div>
         </div>
