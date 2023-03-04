@@ -191,6 +191,7 @@ const ImageGrid = ({
                         <div
                             id={`thumbnail-container-${index}-${imageIndex}`}
                             className="thumbnail-container"
+                            tabIndex={1}
                             style={{
                               marginRight: borderOffset,
                               marginBottom: borderOffset,

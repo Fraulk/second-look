@@ -65,10 +65,12 @@ body {
   cursor: default;
 }
 
+.image-row .thumbnail-container:focus .image-info,
 .image-row .thumbnail-container:hover .image-info {
   height: 32px;
 }
 
+.image-row .thumbnail-container:focus .image-info div,
 .image-row .thumbnail-container:hover .image-info div {
   height: 20px;
 }
@@ -203,7 +205,12 @@ body {
   cursor: pointer;
 }
 
-.image-row .thumbnail-container:hover .markSeen {
+.thumbnail-container:focus {
+  outline: none;
+}
+
+.image-row .thumbnail-container:hover .markSeen,
+.image-row .thumbnail-container:focus .markSeen {
   top: 5px;
 }
 

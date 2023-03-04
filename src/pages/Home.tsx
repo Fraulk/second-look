@@ -2,6 +2,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
+import { Onboarding } from "../components/Onboarding/Onboarding";
 import OpenedShot from "../components/OpenedShot/OpenedShot";
 import { Settings } from "../components/Settings/Settings";
 import { Shot } from "../types";
@@ -17,6 +18,8 @@ export const Home = (props: any) => {
     const dbRef = ref(getDatabase());
     const [state, dispatch] = useReducer(reducer, initialState, createInitialState)
     const [openShot, setOpenShot] = useState(null)
+    const [random, setRandom] = useState(Math.random())
+    const [step, setStep] = useState(0)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;
@@ -55,6 +58,14 @@ export const Home = (props: any) => {
 
     return (
         <div className="home">
+          {step <= 2 &&
+            <Onboarding
+              randomShot={[...shots, ...allShots][Math.floor(random * [...shots, ...allShots].length)]}
+              changeRandom={() => setRandom(Math.random())}
+              step={step}
+              setStep={setStep}
+            />
+          }
           <Filter autocomplete={authorsSearch} onFilter={onFilter} />
             {shots && shots.length > 0 && 
                 <>
