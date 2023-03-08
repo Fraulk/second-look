@@ -185,15 +185,20 @@ body {
   transition: color .2s ease-out, opacity .1s ease-out;
 }
 
-.markSeen {
+.image-actions {
+  position: absolute;
+  top: -50px;
+  right: 5px;
+  display: flex;
+  gap: 4px;
+}
+
+.markSeen, .fullScreen-btn {
   height: 20px;
   padding: 0 6px 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: -50px;
-  right: 5px;
   color: #fff;
   background: #9c0135aa;
   font-size: 14px;
@@ -203,7 +208,11 @@ body {
   cursor: pointer;
 }
 
-.image-row .thumbnail-container:hover .markSeen {
+.fullScreen-btn {
+  background-color: #000000aa;
+}
+
+.image-row .thumbnail-container:hover .image-actions {
   top: 5px;
 }
 

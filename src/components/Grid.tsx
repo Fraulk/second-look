@@ -224,7 +224,10 @@ const ImageGrid = ({
                                   onDragStart={(e) => e.preventDefault()}
                                 ></div>
                             </div>
-                            {state.markAsSeen && isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
+                            <div className="image-actions">
+                              {state.markAsSeen && isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
+                              <div className="fullScreen-btn" onClick={() => setOpenShot(rows[index][imageIndex])}>Fullscreen</div>
+                            </div>
                             <div className="image-info">
                               <div className="game">
                                 {image.name}
