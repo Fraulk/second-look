@@ -80,7 +80,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
                         <div className="onboarding-title">
                             Welcome to Framed <span className="second-look">#second-look</span>
                         </div>
-                        <div className="onboarding-close"><Close /></div>
+                        <div className="onboarding-close" onClick={() => setStep(4)}><Close /></div>
                     </div>
 
                     <div className="onboarding-body">
