@@ -1,5 +1,6 @@
 import { getDatabase, ref, child, get } from "firebase/database";
 import { useCallback, useEffect, useReducer, useState } from "react";
+import Info from "../assets/icons/Info";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
 import { Onboarding } from "../components/Onboarding/Onboarding";
@@ -19,7 +20,7 @@ export const Home = (props: any) => {
     const [state, dispatch] = useReducer(reducer, initialState, createInitialState)
     const [openShot, setOpenShot] = useState(null)
     const [random, setRandom] = useState(Math.random())
-    const [step, setStep] = useState(0)
+    const [step, setStep] = useState(99)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;
@@ -87,6 +88,9 @@ export const Home = (props: any) => {
                       </span>
                     </div> */}
                     <Settings state={state} dispatch={dispatch} />
+                    <div className="tutorial" onClick={() => setStep(0)}>
+                      <Info />
+                    </div>
                 </>
             || 
                 <div className="error-message">No id specified</div>

@@ -44,6 +44,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
             filterBar!.parentElement!.parentElement!.style.zIndex = "11"
         }
         if (step == 2) {
+            window.scrollTo(0, 0)
             imageContainer?.focus()
             imageContainer!.style.zIndex = "11"
             setTimeout(() => {
