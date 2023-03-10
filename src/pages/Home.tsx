@@ -58,7 +58,7 @@ export const Home = (props: any) => {
 
     return (
         <div className="home">
-          {step <= 2 && shots && shots.length > 0 &&
+          {step <= 3 && shots && shots.length > 0 &&
             <Onboarding
               randomShot={[...shots, ...allShots][Math.floor(random * [...shots, ...allShots].length)]}
               changeRandom={() => setRandom(Math.random())}

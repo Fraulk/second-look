@@ -36,6 +36,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
         const onboardingBox: HTMLElement | null = document.querySelector(`.onboarding-modal.step-${step}`)
         const filterBar: HTMLInputElement | null = document.querySelector('input#filter')
         const imageContainer: HTMLElement | null = document.querySelector('#thumbnail-container-1-0')
+        const settingsBox: HTMLElement | null = document.querySelector('div.Settings')
         if (!imageContainer) return setStep(100)
         document.querySelector('body')!.style.overflow = "hidden"
         if (step == 1) {
@@ -51,6 +52,10 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
             const imgContPos = {x: (imageContainer!.offsetLeft + imageContainer!.offsetWidth + 10) ?? 320, y: (imageContainer!.parentElement!.offsetTop) ?? 112}
             setOnboardingBoxPos(imgContPos)
         }
+        if (step == 3) {
+            settingsBox?.focus()
+            settingsBox!.style.zIndex = "11"
+        }
 
         return () => {
             document.querySelector('body')!.style.overflow = "auto"
@@ -61,7 +66,8 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
     
 
     return (
-        <div className="onboarding" style={step > 0 ? {backgroundColor: "unset", backdropFilter: "unset"} : {}}>
+        // style={step > 0 ? {backgroundColor: "unset", backdropFilter: "unset"} : {}}
+        <div className="onboarding">
             {step == 0 &&
             <>
                 {showRandShot &&
@@ -108,6 +114,14 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
             <div className="onboarding-modal step-2" style={{left: onboardingBoxPos.x, top: onboardingBoxPos.y}}>
                 <div className="onboarding-body">
                     You can mark shot as seen using this button
+                </div>
+                <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
+            </div>
+            }
+            {step == 3 &&
+            <div className="onboarding-modal step-3" style={{right: "18rem", bottom: "1rem"}}>
+                <div className="onboarding-body">
+                    You can change some settings here
                 </div>
                 <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
             </div>

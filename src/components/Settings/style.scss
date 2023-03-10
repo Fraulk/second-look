@@ -11,8 +11,9 @@
     transform: translateY(calc(100% + -40px));
     transition: transform .2s ease-out;
 
-    &:hover {
+    &:hover, &:focus {
         transform: translateX(0);
+        outline: none;
     }
 
     .setting {

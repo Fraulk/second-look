@@ -14,7 +14,7 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
     }
 
     return (
-        <div className="Settings">
+        <div className="Settings" tabIndex={-1}>
             Settings
             <div className="setting">
                 Show "Mark as seen"
