@@ -27,8 +27,8 @@ export const Home = (props: any) => {
         respShots = Object.values(respShots)
         setShotCount(respShots.length)
         respShots.reverse();
-        if (respShots.length > 100) {
-          setShots(respShots.splice(0, 100))
+        if (respShots.length > state.shotCountAtLoad ?? 100) {
+          setShots(respShots.splice(0, state.shotCountAtLoad ?? 100))
           setAllShots(respShots)
         }
         else

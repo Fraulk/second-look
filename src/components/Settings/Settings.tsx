@@ -13,6 +13,11 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
         dispatch({type: e.target.name, payload: e.target.checked})
     }
 
+    const handleSettingNumberChange = (e: any) => {
+        const value = Math.min(Math.max(e.target.value, 10), 1000)
+        dispatch({type: e.target.name, payload: value})
+    }
+
     return (
         <div className="Settings" tabIndex={-1}>
             Settings
@@ -56,13 +61,22 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
                 <div className="setting-text">
                     {state.openLinkClick ? "Right" : "Left"} click to open links
                 </div>
-                <div className="setting-info" style={{bottom: 6}}>
+                <div className="setting-info">
                     Choose which mouse click opens in fullscreen and which opens the link
                 </div>
                 <label className="setting-switch">
                     <input type="checkbox" name="openLinkClick" defaultChecked={!!state.openLinkClick} onChange={handleSettingChange} />
                     <span className="slider round"></span>
                 </label>
+            </div>
+            <div className="setting">
+                <div className="setting-text">
+                    Shot count at page load
+                </div>
+                <div className="setting-info" style={{bottom: 6}}>
+                    Specify how much shot you want to load when opening the website. The lower, the faster site loads
+                </div>
+                <input type="number" min={10} max={1000} name="shotCountAtLoad" className="setting-number" defaultValue={state.shotCountAtLoad} onChange={handleSettingNumberChange} />
             </div>
         </div>
     )

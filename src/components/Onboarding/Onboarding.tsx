@@ -85,19 +85,24 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
                     </div>
 
                     <div className="onboarding-body">
-                        The Framed Discord server features a channel called{" "}
-                        <span className="second-look">#second-look</span>{" "}
-                        where users can share links{" "}
-                        <span
-                            className="random-shot"
-                            onMouseEnter={() => setShowRandShot(true)}
-                            onMouseLeave={handleMouseLeave}
-                        >
-                            to their favorite shots.
-                        </span>{" "}
-                        To improve the viewing experience of these shots, I created a website.
-                        Additionally, I came up with the idea of creating a daily gallery showcasing all of the shots from the previous day.
-                        Thanks chatGPT for the rephrasing
+                        <p>
+                            The Framed Discord server features a channel called{" "}
+                            <span className="second-look">#second-look</span>{" "}
+                            where users can share links{" "}
+                            <span
+                                className="random-shot"
+                                onMouseEnter={() => setShowRandShot(true)}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                to their favorite shots.
+                            </span>{" "}
+                            To improve the viewing experience of these shots, I created a website.
+                            Additionally, I came up with the idea of creating a daily gallery showcasing all of the shots from the previous day.
+                        </p>
+                        <p>
+                            Take note that only 1000 shots are visible and 100 are loaded at first. To load more, click on the button at the bottom.
+                            Thanks chatGPT for the rephrasing.
+                        </p>
                     </div>
                     <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
                 </div>
