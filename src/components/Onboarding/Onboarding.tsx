@@ -59,7 +59,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
 
         return () => {
             document.querySelector('body')!.style.overflow = "auto"
-            filterBar!.parentElement!.parentElement!.style.zIndex = "unset"
+            filterBar!.parentElement!.parentElement!.style.zIndex = "1"
             imageContainer!.style.zIndex = "unset"
         }
     }, [step])
