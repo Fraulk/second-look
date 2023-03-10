@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useMemo, useState } from "react"
+import { createElement, Dispatch, useEffect, useMemo, useState } from "react"
 import Close from "../../assets/icons/Close"
 import RightArrow from "../../assets/icons/RightArrow"
 import { Shot } from "../../types"
@@ -36,6 +36,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
         const onboardingBox: HTMLElement | null = document.querySelector(`.onboarding-modal.step-${step}`)
         const filterBar: HTMLInputElement | null = document.querySelector('input#filter')
         const imageContainer: HTMLElement | null = document.querySelector('#thumbnail-container-1-0')
+        if (!imageContainer) return setStep(100)
         document.querySelector('body')!.style.overflow = "hidden"
         if (step == 1) {
             filterBar?.focus()
