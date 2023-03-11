@@ -3,6 +3,7 @@ export interface SettingState {
     linkApp: boolean;
     scrollToLastSeen: boolean;
     openLinkClick: number; // 0 | 1
+    shotCountAtLoad: number;
 }
 
 export const initialState = {
@@ -10,16 +11,26 @@ export const initialState = {
     linkApp: true,
     scrollToLastSeen: true,
     openLinkClick: 0,
-}
-
-export const createInitialState = (initialState: SettingState) => {
-    const localeSettings = localStorage.getItem("settings")
-    return (localeSettings != null) ? JSON.parse(localeSettings) : initialState
+    shotCountAtLoad: 100,
 }
 
 const saveCurrentState = (state: SettingState) => {
     localStorage.setItem("settings", JSON.stringify(state))
     return state
+}
+
+export const createInitialState = (initialState: SettingState) => {
+    const localeSettings = localStorage.getItem("settings")
+    const localeSettingsParsed = (localeSettings != null) ? JSON.parse(localeSettings) : []
+    // if locale settings == initial settings, no new setting and already saved
+    if (Object.keys(localeSettingsParsed).length == Object.keys(initialState).length)
+        return localeSettingsParsed
+    // if locale settings exists but length is different than initial settings, new settings and saves to locale
+    else if (Object.keys(localeSettingsParsed).length > 0 && Object.keys(localeSettingsParsed).length != Object.keys(initialState).length)
+        return saveCurrentState({...initialState, ...localeSettingsParsed})
+    // no saved settings
+    else
+        return initialState
 }
 
 export const reducer = (state: SettingState, action: {type: string, payload: any}) => {
@@ -35,6 +46,9 @@ export const reducer = (state: SettingState, action: {type: string, payload: any
 
         case "openLinkClick":
             return saveCurrentState({...state, openLinkClick: action.payload})
+
+        case "shotCountAtLoad":
+            return saveCurrentState({...state, shotCountAtLoad: action.payload})
     
         default:
             return {...state}

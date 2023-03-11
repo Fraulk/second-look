@@ -1,7 +1,9 @@
 import { getDatabase, ref, child, get } from "firebase/database";
 import { useCallback, useEffect, useReducer, useState } from "react";
+import Info from "../assets/icons/Info";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
+import { Onboarding } from "../components/Onboarding/Onboarding";
 import OpenedShot from "../components/OpenedShot/OpenedShot";
 import { Settings } from "../components/Settings/Settings";
 import { Shot } from "../types";
@@ -17,14 +19,18 @@ export const Home = (props: any) => {
     const dbRef = ref(getDatabase());
     const [state, dispatch] = useReducer(reducer, initialState, createInitialState)
     const [openShot, setOpenShot] = useState(null)
+    const [random, setRandom] = useState(Math.random())
+    const [step, setStep] = useState(99)
+    const isTodayGallery = params.get("id") == "873628046194778123"
+    const shotCountAtLoad = !isTodayGallery ? 100 : (state.shotCountAtLoad ?? 100)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;
         respShots = Object.values(respShots)
         setShotCount(respShots.length)
         respShots.reverse();
-        if (respShots.length > 100) {
-          setShots(respShots.splice(0, 100))
+        if (respShots.length > shotCountAtLoad) {
+          setShots(respShots.splice(0, shotCountAtLoad))
           setAllShots(respShots)
         }
         else
@@ -37,7 +43,7 @@ export const Home = (props: any) => {
           .catch((error) => console.error(error))
     }, [])
     
-    const handleLoadMore = () => setShots(shots.concat(allShots.splice(0, 100)))
+    const handleLoadMore = () => setShots(shots.concat(allShots.splice(0, shotCountAtLoad)))
 
     const onFilter = (term: any) => {
       if(!!!term) {
@@ -55,6 +61,14 @@ export const Home = (props: any) => {
 
     return (
         <div className="home">
+          {step <= 3 && shots && shots.length > 0 &&
+            <Onboarding
+              randomShot={[...shots, ...allShots][Math.floor(random * [...shots, ...allShots].length)]}
+              changeRandom={() => setRandom(Math.random())}
+              step={step}
+              setStep={setStep}
+            />
+          }
           <Filter autocomplete={authorsSearch} onFilter={onFilter} />
             {shots && shots.length > 0 && 
                 <>
@@ -76,6 +90,9 @@ export const Home = (props: any) => {
                       </span>
                     </div> */}
                     <Settings state={state} dispatch={dispatch} />
+                    <div className="tutorial" onClick={() => setStep(0)}>
+                      <Info />
+                    </div>
                 </>
             || 
                 <div className="error-message">No id specified</div>
