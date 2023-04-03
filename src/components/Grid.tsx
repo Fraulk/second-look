@@ -125,6 +125,7 @@ const ImageGrid = ({
     const [lastSeen, setLastSeen] = useState<number>(Number(localStorage.getItem("currentMarkSeen")) || 0)
     const params = new URLSearchParams(window.location.search);
     const isTodayGallery = params.get("id") == "873628046194778123"
+    const [isOutOfFocus, setIsOutOfFocus] = useState(false)
 
     useEffect(() => {
       if (!isTodayGallery) {
@@ -157,8 +158,14 @@ const ImageGrid = ({
     }
 
     const handleClick = (image: Shot, index: number, imageIndex: number, clickType: 0 | 1) => {
-      if (state.openLinkClick == clickType)
+      if (isOutOfFocus) {
+        setIsOutOfFocus(false)
+        return
+      }
+      if (state.openLinkClick == clickType) {
         document.location.href = `${state.linkApp ? 'discord://' : ''}${image.messageUrl}`
+        setIsOutOfFocus(true)
+      }
       else
         setOpenShot(rows[index][imageIndex])
     }

@@ -20,18 +20,31 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
     const arrowRight = useRef(null)
     useOutsideAlerter([imgRef, arrowLeft, arrowRight], closeShot);
     const currentShotIndex = images.findIndex((item: Shot) => item.createdAt == currentShot.createdAt)
+    const [isOutOfFocus, setIsOutOfFocus] = useState(false)
 
     const handleClick = (clickType: 0 | 1, e?: any) => {
+        if (isOutOfFocus) {
+            setIsOutOfFocus(false)
+            return
+        }
         if (e) e.preventDefault()
-        if (state.openLinkClick == clickType)
+        if (state.openLinkClick == clickType) {
             document.location.href = `${state.linkApp ? 'discord://' : ''}${currentShot.messageUrl}`
+            setIsOutOfFocus(true)
+        }
         else
             closeShot()
     }
 
-    const prevShot = () => currentShotIndex - 1 >= 0 && setCurrentShot(images[currentShotIndex - 1])
+    const prevShot = () => {
+        setIsOutOfFocus(false)
+        currentShotIndex - 1 >= 0 && setCurrentShot(images[currentShotIndex - 1])
+    }
 
-    const nextShot = () => currentShotIndex + 1 < images.length && setCurrentShot(images[currentShotIndex + 1])
+    const nextShot = () => {
+        setIsOutOfFocus(false)
+        currentShotIndex + 1 < images.length && setCurrentShot(images[currentShotIndex + 1])
+    }
 
     const handleKeyboard = (event: any) => {
         const { key } = event;

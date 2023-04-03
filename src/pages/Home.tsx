@@ -38,9 +38,9 @@ export const Home = (props: any) => {
     }
 
     useEffect(() => {
-        get(child(dbRef, `${params.get("id")}`))
-          .then((shots) => shots.exists() && firebaseObjToArray(shots.val()))
-          .catch((error) => console.error(error))
+      get(child(dbRef, `${params.get("id")}`))
+        .then((shots) => shots.exists() && firebaseObjToArray(shots.val()))
+        .catch((error) => console.error(error))
     }, [])
     
     const handleLoadMore = () => setShots(shots.concat(allShots.splice(0, shotCountAtLoad)))
