@@ -18,7 +18,8 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
     const imgRef = useRef(null)
     const arrowLeft = useRef(null)
     const arrowRight = useRef(null)
-    useOutsideAlerter([imgRef, arrowLeft, arrowRight], closeShot);
+    const outOfFocusDiv = useRef(null)
+    useOutsideAlerter([imgRef, arrowLeft, arrowRight, outOfFocusDiv], closeShot);
     const currentShotIndex = images.findIndex((item: Shot) => item.createdAt == currentShot.createdAt)
     const [isOutOfFocus, setIsOutOfFocus] = useState(false)
 
@@ -78,6 +79,11 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
 
     return (
         <div className="OpenedShot">
+            {isOutOfFocus && (
+                <div className='outOfFocus' onClick={() => setIsOutOfFocus(false)} ref={outOfFocusDiv}>
+                    The window is out of focus. Click anywhere to regain focus.
+                </div>
+            )}
             <div className="opened-image-wrapper" onContextMenu={(e) => handleClick(1, e)}>
                 {/* background-image need specified height to be auto, and so be correctly centered, too much of a pain */}
                 {/* <div className="opened-image-container" style={{backgroundImage: `url("${currentShot.imageUrl}")`}}></div> */}
