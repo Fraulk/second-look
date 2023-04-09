@@ -289,6 +289,22 @@ body {
   cursor: pointer;
 }
 
+.outOfFocus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: unset;
+  overflow: hidden;
+  backdrop-filter: blur(0px);
+  z-index: 100;
+  animation: blurIn .2s ease-out forwards;
+}
+
 /* ------------------------- Animation ------------------------- */
 
 @keyframes gradientAnim {
@@ -323,5 +339,12 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes blurIn {
+  to {
+    backdrop-filter: blur(10px);
+    background-color: #0000009a;
   }
 }

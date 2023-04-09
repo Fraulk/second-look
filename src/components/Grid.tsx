@@ -178,6 +178,11 @@ const ImageGrid = ({
           paddingTop: borderOffset,
         }}
       >
+        {isOutOfFocus && (
+          <div className='outOfFocus' onClick={() => setIsOutOfFocus(false)}>
+            The window is out of focus. Click anywhere to regain focus.
+          </div>
+        )}
         {rows.map((row, index) => {
           return (
             <div key={index} id={`row-${index}`} className="image-row">
