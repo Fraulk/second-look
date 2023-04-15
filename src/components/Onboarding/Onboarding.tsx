@@ -40,7 +40,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
         if (!imageContainer) {
             imageContainer = document.querySelector('#thumbnail-container-0-0')
         }
-        document.querySelector('body')!.style.overflow = "hidden"
+        document.querySelector('body')!.style.overflowY = "hidden"
         if (step == 1) {
             filterBar?.focus()
             filterBar!.parentElement!.parentElement!.style.zIndex = "11"
@@ -62,7 +62,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
         }
 
         return () => {
-            document.querySelector('body')!.style.overflow = "auto"
+            document.querySelector('body')!.style.overflowY = "unset"
             filterBar!.parentElement!.parentElement!.style.zIndex = "1"
             if (imageContainer) imageContainer.style.zIndex = "unset"
         }
