@@ -35,9 +35,11 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
     useEffect(() => {
         const onboardingBox: HTMLElement | null = document.querySelector(`.onboarding-modal.step-${step}`)
         const filterBar: HTMLInputElement | null = document.querySelector('input#filter')
-        const imageContainer: HTMLElement | null = document.querySelector('#thumbnail-container-1-0')
+        let imageContainer: HTMLElement | null = document.querySelector('#thumbnail-container-1-0')
         const settingsBox: HTMLElement | null = document.querySelector('div.Settings')
-        if (!imageContainer) return setStep(100)
+        if (!imageContainer) {
+            imageContainer = document.querySelector('#thumbnail-container-0-0')
+        }
         document.querySelector('body')!.style.overflow = "hidden"
         if (step == 1) {
             filterBar?.focus()
@@ -46,11 +48,12 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
         if (step == 2) {
             window.scrollTo(0, 0)
             imageContainer?.focus()
-            imageContainer!.style.zIndex = "11"
+            if (imageContainer) imageContainer.style.zIndex = "11"
             setTimeout(() => {
                 onboardingBox!.style.opacity = "1"
             }, 100);
-            const imgContPos = {x: (imageContainer!.offsetLeft + imageContainer!.offsetWidth + 10) ?? 320, y: (imageContainer!.parentElement!.offsetTop) ?? 112}
+            const imgContPos = imageContainer ? {x: (imageContainer!.offsetLeft + imageContainer!.offsetWidth + 10) ?? 320, y: (imageContainer!.parentElement!.offsetTop) ?? 112}
+                                              : {x: 10, y: 10}
             setOnboardingBoxPos(imgContPos)
         }
         if (step == 3) {
@@ -61,7 +64,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
         return () => {
             document.querySelector('body')!.style.overflow = "auto"
             filterBar!.parentElement!.parentElement!.style.zIndex = "1"
-            imageContainer!.style.zIndex = "unset"
+            if (imageContainer) imageContainer.style.zIndex = "unset"
         }
     }, [step])
     
