@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 15rem;
+    width: 20rem;
     padding: .5rem 1rem;
     display: flex;
     flex-flow: column nowrap;
@@ -15,7 +15,8 @@
     transition: transform .2s ease-out;
     z-index: 1;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         transform: translateX(0);
         outline: none;
     }
@@ -99,7 +100,7 @@
             transition: opacity .1s ease-out;
         }
 
-        .setting-text:hover ~ .setting-info {
+        .setting-text:hover~.setting-info {
             opacity: 1;
         }
 
@@ -119,11 +120,106 @@
                 outline: none;
             }
         }
-        
+
         input.setting-number::-webkit-outer-spin-button,
         input.setting-number::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
+        }
+
+        .batterySlider {
+            width: 70%;
+            height: 42px;
+            position: relative;
+
+            .batteryIndicator {
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 38px;
+                color: white;
+                font-size: 1rem;
+                font-weight: 600;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                width: min-content;
+                margin: auto;
+
+                input {
+                    width: 3rem;
+                    direction: rtl;
+                    outline: none;
+                    background-color: transparent;
+                    border: none;
+                    font-family: inherit;
+                    font-weight: 600;
+                    font-size: 1rem;
+                    color: white;
+                }
+
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -moz-appearance: none;
+                    -webkit-appearance: none;
+                    appearance: none;
+                    margin: 0;
+                }
+
+                input[type="number"] {
+                    -moz-appearance: none;
+                    -webkit-appearance: none;
+                    appearance: none;
+                }
+            }
+
+            .bSlider {
+                -webkit-appearance: none;
+                /* Override default CSS styles */
+                appearance: none;
+                width: 100%;
+                /* Full-width */
+                height: 38px;
+                /* Specified height */
+                outline: none;
+                /* Remove outline */
+                background: #1d1d1d98;
+                /* Grey background */
+                border-radius: 10px;
+                overflow: hidden;
+                cursor: pointer;
+
+                &::-moz-range-thumb {
+                    -webkit-appearance: none;
+                    /* Override default look */
+                    appearance: none;
+                    // background-image: url("../assets/svg/slider-thumb.svg"),
+                    //     linear-gradient(to right, var(--bgColor) 50%, var(--emptyBgColor) 50%);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    height: 40px;
+                    width: 0; // set to zero to remove cursor, along with background
+                    border: 0px solid #999;
+                    border-radius: 0 !important;
+                    box-shadow: -100vw 0 0 100vw #9c0135;
+                    box-sizing: border-box;
+                    transition: box-shadow 0.2s ease-out, background-image 0.2s ease-out;
+                    //   background-image: url("../assets/svg/slider-thumb.svg");
+                }
+
+                &::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    width: 33px;
+                    height: 38px;
+                    // background-image: url("../assets/svg/slider-thumb.svg"),
+                    //     linear-gradient(to right, var(--bgColor) 50%, var(--emptyBgColor) 50%);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    box-shadow: -100vw 0 0 100vw #9c0135;
+                    border: 0px solid #999;
+                    transition: box-shadow 0.2s ease-out, background-image 0.2s ease-out;
+                }
+            }
         }
     }
 }

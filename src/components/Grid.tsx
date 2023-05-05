@@ -36,8 +36,8 @@ const ImageGrid = ({
         imageUrl: images[i].imageUrl,
         messageUrl: images[i].messageUrl,
         name: images[i].name,
-        width: width,
-        height: rowTargetHeight,
+        width: width * state.gridSize,
+        height: rowTargetHeight * state.gridSize,
         createdAt: images[i].createdAt
       };
 

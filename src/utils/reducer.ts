@@ -4,6 +4,7 @@ export interface SettingState {
     scrollToLastSeen: boolean;
     openLinkClick: number; // 0 | 1
     shotCountAtLoad: number;
+    gridSize: number;
 }
 
 export const initialState = {
@@ -12,6 +13,7 @@ export const initialState = {
     scrollToLastSeen: true,
     openLinkClick: 0,
     shotCountAtLoad: 100,
+    gridSize: 1
 }
 
 const saveCurrentState = (state: SettingState) => {
@@ -49,6 +51,9 @@ export const reducer = (state: SettingState, action: {type: string, payload: any
 
         case "shotCountAtLoad":
             return saveCurrentState({...state, shotCountAtLoad: action.payload})
+
+        case "gridSize":
+            return saveCurrentState({...state, gridSize: action.payload})
     
         default:
             return {...state}

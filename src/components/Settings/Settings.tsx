@@ -20,12 +20,18 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
         dispatch({type: e.target.name, payload: value})
     }
 
+    const handleSettingSliderChange = (e: any) => {
+        if (e.target.value > 1000) return
+        dispatch({type: e.target.name, payload: e.target.value / 100})
+    }
+
     const settingList = [
         {name: "markAsSeen", label: 'Show "Mark as seen"', info: 'Hide or show the feature "Mark as seen" so that the shots don\'t get an overlay saying "SEEN"', type: "boolean", showOnlyOnTodaysGallery: true},
         {name: "linkApp", label: `Link discord ${state.linkApp ? "app" : "web"}`, info: 'Choose which link to use between the discord app version or the discord website version', type: "boolean", showOnlyOnTodaysGallery: false},
         {name: "scrollToLastSeen", label: 'Scroll to last seen shot"', info: 'Remember your "Marked as seen" shot and scroll to it next time you access the website.', type: "boolean", showOnlyOnTodaysGallery: true},
         {name: "openLinkClick", label: `${state.openLinkClick ? "Right" : "Left"} click to open links`, info: 'Choose which mouse click opens in fullscreen and which opens the link', type: "boolean", showOnlyOnTodaysGallery: false},
         {name: "shotCountAtLoad", label: 'Shot count at page load', info: 'Specify how much shot you want to load when opening the website. The lower, the faster site loads', type: "number", showOnlyOnTodaysGallery: true},
+        {name: "gridSize", label: 'Grid size', info: 'Change this option to reduce or enlarge the size of images in the grid', type: "slider", showOnlyOnTodaysGallery: false},
     ]
 
     return (
@@ -49,6 +55,28 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
                         }
                         {item.type == "number" &&
                             <input type="number" min={10} max={1000} name={item.name} className="setting-number" defaultValue={state[item.name]} onChange={handleSettingNumberChange} />
+                        }
+                        {item.type == "slider" &&
+                            <div className="batterySlider">
+                                <input
+                                    type="range"
+                                    name={item.name}
+                                    max={200}
+                                    min={30}
+                                    className="bSlider"
+                                    id="bSlider"
+                                    value={state[item.name] * 100}
+                                    onChange={handleSettingSliderChange}
+                                />
+                                <span className="batteryIndicator">
+                                    <input
+                                        name={item.name}
+                                        onChange={handleSettingSliderChange}
+                                        value={Math.round(state[item.name] * 100)}
+                                        // ref="batteryInput"
+                                    />%
+                                </span>
+                          </div>
                         }
                     </div>
                 }
