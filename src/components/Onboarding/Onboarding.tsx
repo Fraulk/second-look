@@ -3,15 +3,17 @@ import Close from "../../assets/icons/Close"
 import RightArrow from "../../assets/icons/RightArrow"
 import { Shot } from "../../types"
 import "./style.scss"
+import { SettingState } from "../../utils/reducer"
 
 type OnboardingProps = {
     randomShot: Shot | null,
     changeRandom: () => void,
     step: number,
-    setStep: Dispatch<React.SetStateAction<number>>
+    setStep: Dispatch<React.SetStateAction<number>>,
+    state: SettingState
 }
 
-export const Onboarding = ({randomShot, changeRandom, step, setStep}: OnboardingProps) => {
+export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: OnboardingProps) => {
     const [showRandShot, setShowRandShot] = useState(false)
     const [mousePos, setMousePos] = useState<{x: number, y: number}>({x: 0, y: 0})
     const [onboardingBoxPos, setOnboardingBoxPos] = useState<{x: number, y: number}>({x: 320, y: 112})
@@ -71,7 +73,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
 
     return (
         // style={step > 0 ? {backgroundColor: "unset", backdropFilter: "unset"} : {}}
-        <div className="onboarding">
+        <div className="onboarding" style={{opacity: state.hudOpacity}}>
             {step == 0 &&
             <>
                 {showRandShot &&
@@ -128,7 +130,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep}: Onboarding
             </div>
             }
             {step == 3 &&
-            <div className="onboarding-modal step-3" style={{right: "18rem", bottom: "1rem"}}>
+            <div className="onboarding-modal step-3" style={{right: "25rem", bottom: "1rem"}}>
                 <div className="onboarding-body">
                     You can change some settings here
                 </div>

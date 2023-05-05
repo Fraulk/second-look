@@ -67,9 +67,10 @@ export const Home = (props: any) => {
               changeRandom={() => setRandom(Math.random())}
               step={step}
               setStep={setStep}
+              state={state}
             />
           }
-          <Filter autocomplete={authorsSearch} onFilter={onFilter} />
+          <Filter autocomplete={authorsSearch} onFilter={onFilter} state={state} />
             {shots && shots.length > 0 && 
                 <>
                     {openShot != null && 
@@ -77,7 +78,7 @@ export const Home = (props: any) => {
                     }
                     <ImageGrid images={filteredShots || shots} borderOffset={5} state={state} setOpenShot={setOpenShot} />
                     {shotCount > 100 && allShots.length > 0 && !filteredShots &&
-                        <div className="more-shots" onClick={handleLoadMore}>
+                        <div className="more-shots" style={{opacity: state.hudOpacity}} onClick={handleLoadMore}>
                         Load more
                         </div>
                     }
@@ -90,7 +91,7 @@ export const Home = (props: any) => {
                       </span>
                     </div> */}
                     <Settings state={state} dispatch={dispatch} />
-                    <div className="tutorial" onClick={() => setStep(0)}>
+                    <div className="tutorial" style={{opacity: state.hudOpacity}} onClick={() => setStep(0)}>
                       <Info />
                     </div>
                 </>

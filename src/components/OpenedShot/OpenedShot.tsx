@@ -88,7 +88,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
                 {/* background-image need specified height to be auto, and so be correctly centered, too much of a pain */}
                 {/* <div className="opened-image-container" style={{backgroundImage: `url("${currentShot.imageUrl}")`}}></div> */}
                 {currentShotIndex - 1 >= 0 &&
-                    <div className="opened-image-prev" onClick={prevShot} ref={arrowLeft}><LeftArrow /></div>
+                    <div className="opened-image-prev" style={{opacity: state.hudOpacity}} onClick={prevShot} ref={arrowLeft}><LeftArrow /></div>
                 }
                 <img
                     src={currentShot.imageUrl}
@@ -100,7 +100,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
                     ref={imgRef}
                 />
                 {currentShotIndex + 1 < images.length &&
-                    <div className="opened-image-next" onClick={nextShot} ref={arrowRight}><RightArrow /></div>
+                    <div className="opened-image-next" style={{opacity: state.hudOpacity}} onClick={nextShot} ref={arrowRight}><RightArrow /></div>
                 }
             </div>
         </div>

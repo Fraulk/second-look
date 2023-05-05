@@ -7,6 +7,16 @@ interface SettingsProps {
     dispatch: Dispatch<{ type: string; payload: any; }>;
 }
 
+interface SettingList {
+    name: string;
+    label: string;
+    info: string;
+    type: string;
+    showOnlyOnTodaysGallery: boolean;
+    max?: number;
+    min?: number;
+}
+
 export const Settings = ({state, dispatch}: SettingsProps) => {
     const params = new URLSearchParams(window.location.search);
     const isTodayGallery = params.get("id") == "873628046194778123"
@@ -31,13 +41,14 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
         {name: "scrollToLastSeen", label: 'Scroll to last seen shot"', info: 'Remember your "Marked as seen" shot and scroll to it next time you access the website.', type: "boolean", showOnlyOnTodaysGallery: true},
         {name: "openLinkClick", label: `${state.openLinkClick ? "Right" : "Left"} click to open links`, info: 'Choose which mouse click opens in fullscreen and which opens the link', type: "boolean", showOnlyOnTodaysGallery: false},
         {name: "shotCountAtLoad", label: 'Shot count at page load', info: 'Specify how much shot you want to load when opening the website. The lower, the faster site loads', type: "number", showOnlyOnTodaysGallery: true},
-        {name: "gridSize", label: 'Grid size', info: 'Change this option to reduce or enlarge the size of images in the grid', type: "slider", showOnlyOnTodaysGallery: false},
+        {name: "gridSize", label: 'Grid size', info: 'Change this option to reduce or enlarge the size of images in the grid (click on the percentage to manually type a value)', type: "slider", showOnlyOnTodaysGallery: false, max: 200, min: 30},
+        {name: "hudOpacity", label: 'HUD opacity', info: 'Change the opacity of overything except images', type: "slider", showOnlyOnTodaysGallery: false, max: 100, min: 0},
     ]
 
     return (
-        <div className="Settings" tabIndex={-1}>
+        <div className="Settings" tabIndex={-1} style={{opacity: state.hudOpacity}}>
             Settings
-            {settingList.map((item: {name: string, label: string, info: string, type: string, showOnlyOnTodaysGallery: boolean}, i: number) => (
+            {settingList.map((item: SettingList, i: number) => (
                 <>
                 {(isTodayGallery || isTodayGallery == false && (isTodayGallery == false && item.showOnlyOnTodaysGallery == false)) &&
                     <div className="setting">
@@ -61,8 +72,8 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
                                 <input
                                     type="range"
                                     name={item.name}
-                                    max={200}
-                                    min={30}
+                                    max={item.max}
+                                    min={item.min}
                                     className="bSlider"
                                     id="bSlider"
                                     value={state[item.name] * 100}

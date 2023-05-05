@@ -212,7 +212,14 @@ const ImageGrid = ({
                         >
                             <div onClick={(e) => handleClick(image, index, imageIndex, 0)} onContextMenu={(e) => handleClick(image, index, imageIndex, 1)} onDragStart={(e) => e.preventDefault()}>
                               {/* {lastSeen && (index > lastSeen.row || (index == lastSeen.row && imageIndex >= lastSeen.column)) && <div className="seen">SEEN</div>} */}
-                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && <div className="seen" onDragStart={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>SEEN</div> || ""}
+                              {state.markAsSeen && lastSeen && (image.createdAt ?? 0) <= lastSeen && 
+                                <div
+                                  className="seen"
+                                  style={{opacity: state.hudOpacity}}
+                                  onDragStart={(e) => e.preventDefault()}
+                                  onContextMenu={(e) => e.preventDefault()}
+                                >SEEN</div>|| ""
+                              }
                                 {/* <img
                                   key={`img-${index}-${imageIndex}`}
                                   id={`img-${index}-${imageIndex}`}
@@ -237,11 +244,11 @@ const ImageGrid = ({
                                   onDragStart={(e) => e.preventDefault()}
                                 ></div>
                             </div>
-                            <div className="image-actions">
+                            <div className="image-actions" style={{opacity: state.hudOpacity}}>
                               {state.markAsSeen && isTodayGallery && <div className="markSeen" onClick={() => handleSavePosition(index, imageIndex, image.createdAt)}>Mark as {lastSeen == image.createdAt && "un" || ""}seen</div>}
                               <div className="fullScreen-btn" onClick={() => setOpenShot(rows[index][imageIndex])}>Fullscreen</div>
                             </div>
-                            <div className="image-info">
+                            <div className="image-info" style={{opacity: state.hudOpacity}}>
                               <div className="game">
                                 {image.name}
                               </div>
@@ -251,7 +258,7 @@ const ImageGrid = ({
                             </div> */}
                             </div>
                         </div>
-                        <span style={{position: "relative", left: isRowEnd && -12 || "0"}}>
+                        <span style={{position: "relative", left: isRowEnd && -12 || "0", opacity: state.hudOpacity}}>
                           {isTomorrow && <span className="dateSeparator">{isTomorrow && new Date(image.createdAt! * 1000).toLocaleDateString()}<span className='arrow'>╲╱</span></span>}
                         </span>
                     </>

@@ -1,9 +1,10 @@
 import { useKeyPress } from "../../utils/hooks"
+import { SettingState } from "../../utils/reducer";
 import "./style.scss"
 import { useEffect, useRef, useState } from 'react';
 
-export const Filter = (props: {autocomplete: string[], onFilter: (props: any) => void}) => {
-    const {autocomplete, onFilter} = props
+export const Filter = (props: {autocomplete: string[], onFilter: (props: any) => void, state: SettingState}) => {
+    const {autocomplete, onFilter, state} = props
     const input = useRef<HTMLInputElement>(null)
     let timer: any = undefined
     const [focusedIndex, setFocusedIndex] = useState(-1)
@@ -49,7 +50,7 @@ export const Filter = (props: {autocomplete: string[], onFilter: (props: any) =>
     useKeyPress(['Enter'], "", () => handleInputChange(autocomplete[focusedIndex] ?? ""));
 
     return (
-        <div className="Filter">
+        <div className="Filter" style={{opacity: state.hudOpacity}}>
             <div className="filter-bar" tabIndex={-1}>
                 <input type="text" name="filter" id="filter" placeholder="Search for an author" onChange={(e) => handleFilter(e.target.value)} ref={input} />
                 <div className="shortcuts">
