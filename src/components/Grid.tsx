@@ -147,14 +147,23 @@ const ImageGrid = ({
       }
     }, [])
 
-    const handleSavePosition = (row: number, column: number, createdAt: number = 0) => {
+    useEffect(() => {
+      if (!state.markAtClose) return
+      const markOnClose = (e: any) => handleSavePosition(0, 0, rows[0][0].createdAt, true)
+      window.addEventListener('beforeunload', markOnClose)
+      return () => {
+          window.removeEventListener('beforeunload', markOnClose)
+      }
+    })
+
+    const handleSavePosition = (row: number, column: number, createdAt: number = 0, forceMark = false) => {
       const rowElement: HTMLElement = document.querySelector(`#row-${row}`)!
       const lastPos = rowElement.offsetTop - 5 // pixels from the top
-      const markAsUnseen = lastSeen == createdAt
-      setLastPosition(!markAsUnseen ? lastPos.toString() : "0")
-      setLastSeen(!markAsUnseen ? createdAt : 0)
+      const markAsUnseen = lastSeen == createdAt && !forceMark
       localStorage.setItem("currentScrollPosition", !markAsUnseen ? lastPos.toString() : "0")
       localStorage.setItem("currentMarkSeen", !markAsUnseen ? createdAt.toString() : "0")
+      setLastPosition(!markAsUnseen ? lastPos.toString() : "0")
+      setLastSeen(!markAsUnseen ? createdAt : 0)
     }
 
     const handleClick = (image: Shot, index: number, imageIndex: number, clickType: 0 | 1) => {

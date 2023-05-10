@@ -6,6 +6,7 @@ export interface SettingState {
     shotCountAtLoad: number;
     gridSize: number;
     hudOpacity: number;
+    markAtClose: boolean;
 }
 
 export const initialState = {
@@ -15,7 +16,8 @@ export const initialState = {
     openLinkClick: 0,
     shotCountAtLoad: 100,
     gridSize: 1,
-    hudOpacity: 1
+    hudOpacity: 1,
+    markAtClose: false,
 }
 
 const saveCurrentState = (state: SettingState) => {
@@ -59,6 +61,9 @@ export const reducer = (state: SettingState, action: {type: string, payload: any
 
         case "hudOpacity":
             return saveCurrentState({...state, hudOpacity: action.payload})
+
+        case "markAtClose":
+            return saveCurrentState({...state, markAtClose: action.payload})
     
         default:
             return {...state}

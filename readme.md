@@ -7,4 +7,6 @@ Todo:
 [x] have onboarding stuff  
 [ ] have changelog  
 [x] new option: grid size (multiply the image object width and height at line 35) with a slider  
-[ ] new option: hud opacity  
+[x] new option: hud opacity  
+[ ] let people build second look from the website
+[x] mark all seen at app close option  
