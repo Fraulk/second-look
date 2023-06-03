@@ -67,6 +67,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
             document.querySelector('body')!.style.overflowY = "unset"
             filterBar!.parentElement!.parentElement!.style.zIndex = "1"
             if (imageContainer) imageContainer.style.zIndex = "unset"
+            settingsBox!.style.zIndex = "1"
         }
     }, [step])
     
