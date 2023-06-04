@@ -4,6 +4,7 @@ import RightArrow from "../../assets/icons/RightArrow"
 import { Shot } from "../../types"
 import "./style.scss"
 import { SettingState } from "../../utils/reducer"
+import { Modal, ModalHeader } from "../Modal/Modal"
 
 type OnboardingProps = {
     randomShot: Shot | null,
@@ -16,7 +17,7 @@ type OnboardingProps = {
 export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: OnboardingProps) => {
     const [showRandShot, setShowRandShot] = useState(false)
     const [mousePos, setMousePos] = useState<{x: number, y: number}>({x: 0, y: 0})
-    const [onboardingBoxPos, setOnboardingBoxPos] = useState<{x: number, y: number}>({x: 320, y: 112})
+    const [onboardingBoxPos, setOnboardingBoxPos] = useState<{x: number, y: number}>({x: -500, y: -500})
 
     const handleMousePos = (event: MouseEvent) => {
         setMousePos({x: event.clientX, y: event.clientY})
@@ -35,7 +36,6 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
     }, []);
 
     useEffect(() => {
-        const onboardingBox: HTMLElement | null = document.querySelector(`.onboarding-modal.step-${step}`)
         const filterBar: HTMLInputElement | null = document.querySelector('input#filter')
         let imageContainer: HTMLElement | null = document.querySelector('#thumbnail-container-1-0')
         const settingsBox: HTMLElement | null = document.querySelector('div.Settings')
@@ -51,9 +51,6 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
             window.scrollTo(0, 0)
             imageContainer?.focus()
             if (imageContainer) imageContainer.style.zIndex = "11"
-            setTimeout(() => {
-                onboardingBox!.style.opacity = "1"
-            }, 100);
             const imgContPos = imageContainer ? {x: (imageContainer!.offsetLeft + imageContainer!.offsetWidth + 10) ?? 320, y: (imageContainer!.parentElement!.offsetTop) ?? 112}
                                               : {x: 10, y: 10}
             setOnboardingBoxPos(imgContPos)
@@ -70,7 +67,13 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
             settingsBox!.style.zIndex = "1"
         }
     }, [step])
-    
+
+    const stepCss = {
+        width: "20rem",
+        height: "7rem",
+        backgroundColor: "#2b2b2b77",
+        position: "absolute"
+    }
 
     return (
         // style={step > 0 ? {backgroundColor: "unset", backdropFilter: "unset"} : {}}
@@ -82,13 +85,10 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
                         <img src={randomShot?.imageUrl ?? ""} alt={randomShot?.name ?? ""} />
                     </div>
                 }
-                <div className="onboarding-modal">
-                    <div className="onboarding-header">
-                        <div className="onboarding-title">
-                            Welcome to Framed <span className="second-look">#second-look</span>
-                        </div>
-                        <div className="onboarding-close" onClick={() => setStep(4)}><Close /></div>
-                    </div>
+                <Modal onClose={() => setStep(4)}>
+                    <ModalHeader onClose={() => setStep(4)}>
+                        Welcome to Framed <span className="second-look">#second-look</span>
+                    </ModalHeader>
 
                     <div className="onboarding-body">
                         <p>
@@ -111,32 +111,33 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
                         </p>
                     </div>
                     <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
-                </div>
+                </Modal>
             </>
             }
             {step == 1 &&
-            <div className="onboarding-modal step-1">
+            <Modal style={stepCss} top="5rem">
                 <div className="onboarding-body">
                     You can search for people using this search bar
                 </div>
                 <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
-            </div>
+            </Modal>
             }
             {step == 2 &&
-            <div className="onboarding-modal step-2" style={{left: onboardingBoxPos.x, top: onboardingBoxPos.y}}>
+            // <Modal style={classes.step2} left={onboardingBoxPos.x} top={onboardingBoxPos.y}
+            <Modal style={stepCss} left={onboardingBoxPos.x} top={onboardingBoxPos.y}>
                 <div className="onboarding-body">
                     You can mark shot as seen using this button
                 </div>
                 <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
-            </div>
+            </Modal>
             }
             {step == 3 &&
-            <div className="onboarding-modal step-3" style={{right: "25rem", bottom: "1rem"}}>
+            <Modal style={stepCss} right={"25rem"} bottom={"1rem"}>
                 <div className="onboarding-body">
                     You can change some settings here
                 </div>
                 <div className="onboarding-next-step" onClick={() => setStep((step) => step += 1)}>Next <RightArrow /></div>
-            </div>
+            </Modal>
             }
         </div>
     )
