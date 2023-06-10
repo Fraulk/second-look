@@ -1,0 +1,21 @@
+.Tooltip {
+    // position: relative;
+    display: flex;
+    justify-content: center;
+
+    .tooltip-element {
+        position: absolute;
+        padding: 0 .75rem .25rem;
+        background-color: #0000005e;
+        backdrop-filter: blur(10px);
+        border: 3px solid #737373;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .1s ease-out;
+        white-space: nowrap;
+    }
+
+    &:hover .tooltip-element {
+        opacity: 1;
+    }
+}

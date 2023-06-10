@@ -9,4 +9,5 @@ Todo:
 [x] new option: grid size (multiply the image object width and height at line 35) with a slider  
 [x] new option: hud opacity  
 [ ] let people build second look from the website
-[x] mark all seen at app close option  
+[x] mark all seen at app close option
+[ ] at site's root, show every second-look and today's gallery link  
