@@ -42,7 +42,6 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
         if (!imageContainer) {
             imageContainer = document.querySelector('#thumbnail-container-0-0')
         }
-        document.querySelector('body')!.style.overflowY = "hidden"
         if (step == 1) {
             filterBar?.focus()
             filterBar!.parentElement!.parentElement!.style.zIndex = "11"
@@ -61,7 +60,6 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
         }
 
         return () => {
-            document.querySelector('body')!.style.overflowY = "unset"
             filterBar!.parentElement!.parentElement!.style.zIndex = "1"
             if (imageContainer) imageContainer.style.zIndex = "unset"
             settingsBox!.style.zIndex = "1"
@@ -85,11 +83,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
                         <img src={randomShot?.imageUrl ?? ""} alt={randomShot?.name ?? ""} />
                     </div>
                 }
-                <Modal onClose={() => setStep(4)}>
-                    <ModalHeader onClose={() => setStep(4)}>
-                        Welcome to Framed <span className="second-look">#second-look</span>
-                    </ModalHeader>
-
+                <Modal open={true} header={<>Welcome to Framed <span className="second-look">#second-look</span></>} blockScroll onClose={() => setStep(4)}>
                     <div className="onboarding-body">
                         <p>
                             The Framed Discord server features a channel called{" "}
@@ -115,7 +109,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
             </>
             }
             {step == 1 &&
-            <Modal style={stepCss} top="5rem">
+            <Modal open={true} style={stepCss} top="5rem" blockScroll>
                 <div className="onboarding-body">
                     You can search for people using this search bar
                 </div>
@@ -123,8 +117,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
             </Modal>
             }
             {step == 2 &&
-            // <Modal style={classes.step2} left={onboardingBoxPos.x} top={onboardingBoxPos.y}
-            <Modal style={stepCss} left={onboardingBoxPos.x} top={onboardingBoxPos.y}>
+            <Modal open={true} style={stepCss} left={onboardingBoxPos.x} top={onboardingBoxPos.y} blockScroll>
                 <div className="onboarding-body">
                     You can mark shot as seen using this button
                 </div>
@@ -132,7 +125,7 @@ export const Onboarding = ({randomShot, changeRandom, step, setStep, state}: Onb
             </Modal>
             }
             {step == 3 &&
-            <Modal style={stepCss} right={"25rem"} bottom={"1rem"}>
+            <Modal open={true} style={stepCss} right={"25rem"} bottom={"1rem"} blockScroll>
                 <div className="onboarding-body">
                     You can change some settings here
                 </div>

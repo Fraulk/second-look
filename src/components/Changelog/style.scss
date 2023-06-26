@@ -1,0 +1,58 @@
+.Changelog {
+    position: absolute;
+    z-index: 10;
+
+    .changelog-list {
+        margin: 1rem 0;
+
+        .changelog-content {
+            position: relative;
+            margin: 0.125rem 2rem 0;
+            border-bottom: 2px solid #737373;
+
+            &:last-child {
+                border: none;
+            }
+
+            .changelog-date {
+                position: absolute;
+                color: #737373;
+                font-size: 14px;
+                font-weight: 600;
+                font-style: italic;
+            }
+    
+            .changelog-element {
+                padding-bottom: 1rem;
+                position: relative;
+                z-index: 1;
+        
+                h1 {
+                    padding-top: .325rem;
+                    margin: 0 0 .5rem;
+                    // line-height: rem;
+                }
+        
+                ul {
+                    margin: .5rem 0;
+                    
+                    li {
+                        list-style: "- ";
+                    }
+                }
+            }
+            .changelog-new {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #9c013557;
+                border-radius: 20px;
+                filter: blur(10px);
+                z-index: 0;
+            }
+        }
+
+    }
+}

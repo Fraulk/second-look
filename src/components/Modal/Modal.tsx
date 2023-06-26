@@ -1,10 +1,13 @@
-import { useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import Close from "../../assets/icons/Close";
 import "./style.scss"
 import { useOutsideAlerter } from "../../utils/hooks";
 
 interface ModalProps {
     children: React.ReactNode,
+    open?: boolean;
+    header?: ReactNode;
+    blockScroll?: boolean;
     top?: string | number;
     left?: string | number;
     bottom?: string | number;
@@ -14,7 +17,7 @@ interface ModalProps {
 }
 
 export const Modal = (props: ModalProps) => {
-    const {children, top, left, bottom, right, style = {}, onClose = () => {}} = props
+    const {children, open, header, blockScroll = false, top, left, bottom, right, style = {}, onClose = () => {}} = props
     const modalRef = useRef(null)
     useOutsideAlerter([modalRef], onClose)
 
@@ -29,12 +32,31 @@ export const Modal = (props: ModalProps) => {
         }
         : {...style}
 
-    return (
+    useEffect(() => {
+        if (blockScroll)
+            document.querySelector('body')!.style.overflowY = "hidden"
+
+        return () => {
+            document.querySelector('body')!.style.overflowY = "unset"
+        }
+    }, [])
+    
+
+    return open ? (
         <div className="modal-wrapper">
             <div className="modal" style={modalPosition} ref={modalRef}>
-                {children}
+                {header &&
+                    <ModalHeader onClose={onClose}>
+                        {header}
+                    </ModalHeader>
+                }
+                <div className="modal-content">
+                    {children}
+                </div>
             </div>
         </div>
+    ) : (
+        <></>
     )
 }
 
