@@ -5,6 +5,7 @@ export const parseMarkdown = (content: string) => {
         .replace(/^# (.*$)/gim, '<h1>$1</h1>')      // h1 tag
         .replace(/\*\*(.*)\*\*/gim, '<b>$1</b>')    // bold text
         .replace(/\*(.*)\*/gim, '<i>$1</i>')        // italic text
+        .replace(/\~(.*)\~/gim, '<s>$1</s>')        // strikethrough text
         .replace(/\- (.*)/gim, '<li>$1</li>')       // lists (without <ul>)
         .replace(/(.)  $/gim, '$1<br />')           // new line
 

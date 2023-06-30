@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import LeftArrow from "../../assets/icons/LeftArrow"
 import RightArrow from "../../assets/icons/RightArrow"
 import { Shot } from "../../types"
-import { useOutsideAlerter } from "../../utils/hooks"
+import { useClickTypeHandler, useOutsideAlerter } from "../../utils/hooks"
 import { SettingState } from "../../utils/reducer"
 import "./style.scss"
 
@@ -22,6 +22,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
     useOutsideAlerter([imgRef, arrowLeft, arrowRight, outOfFocusDiv], closeShot);
     const currentShotIndex = images.findIndex((item: Shot) => item.createdAt == currentShot.createdAt)
     const [isOutOfFocus, setIsOutOfFocus] = useState(false)
+    const { handleClickType } = useClickTypeHandler(state)
 
     const handleClick = (clickType: 0 | 1, e?: any) => {
         if (isOutOfFocus) {
@@ -30,7 +31,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
         }
         if (e) e.preventDefault()
         if (state.openLinkClick == clickType) {
-            document.location.href = `${state.linkApp ? 'discord://' : ''}${currentShot.messageUrl}`
+            handleClickType(currentShot.messageUrl)
             setIsOutOfFocus(true)
         }
         else
@@ -88,7 +89,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
                 {/* background-image need specified height to be auto, and so be correctly centered, too much of a pain */}
                 {/* <div className="opened-image-container" style={{backgroundImage: `url("${currentShot.imageUrl}")`}}></div> */}
                 {currentShotIndex - 1 >= 0 &&
-                    <div className="opened-image-prev" style={{opacity: state.hudOpacity}} onClick={prevShot} ref={arrowLeft}><LeftArrow /></div>
+                    <div className="opened-image-prev" style={{ opacity: state.hudOpacity }} onClick={prevShot} ref={arrowLeft}><LeftArrow /></div>
                 }
                 <img
                     src={currentShot.imageUrl}
@@ -100,7 +101,7 @@ export const OpenedShot = ({ images, shot, closeShot, state }: OpenedShotProps) 
                     ref={imgRef}
                 />
                 {currentShotIndex + 1 < images.length &&
-                    <div className="opened-image-next" style={{opacity: state.hudOpacity}} onClick={nextShot} ref={arrowRight}><RightArrow /></div>
+                    <div className="opened-image-next" style={{ opacity: state.hudOpacity }} onClick={nextShot} ref={arrowRight}><RightArrow /></div>
                 }
             </div>
         </div>

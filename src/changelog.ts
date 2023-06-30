@@ -5,6 +5,12 @@ export interface IChangelog {
 
 export const changelog: IChangelog[] = [
     {
+        date: new Date("2023-06-30"),
+        content: `# Bugfix
+        Fixed clicking a link and get all shots marked as seen when the "Mark all shot as seen at close" setting was checked
+        `
+    },
+    {
         date: new Date("2023-06-26"),
         content: `# Changelog
         Added this changelog modal so that every new stuff I code into the site gets written somewhere
@@ -19,7 +25,7 @@ export const changelog: IChangelog[] = [
         </ul>
         Disabled by default  
         Instead of clicking on the "Mark as seen" button, this setting will automatically mark all the shots as seen when you close the tab/browser.  
-        Currently, clicking on a shot counts as leaving the website so it activates this feature, I'll fix that one day
+        ~Currently, clicking on a shot counts as leaving the website so it activates this feature, I'll fix that one day~
         `
     },
     {
