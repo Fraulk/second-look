@@ -7,7 +7,8 @@ export const changelog: IChangelog[] = [
     {
         date: new Date("2023-06-30"),
         content: `# Bugfix
-        Fixed clicking a link and get all shots marked as seen when the "Mark all shot as seen at close" setting was checked
+        Fixed clicking a link and get all shots marked as seen when the "Mark all shot as seen at close" setting was checked  
+        (More like a workaround actually, if you get weird behavior like a popup not opening/closing contact me)
         `
     },
     {
