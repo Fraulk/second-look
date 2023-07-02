@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { Shot } from '../types';
+import { Author, Shot } from '../types';
 import { useClickTypeHandler, useViewport } from '../utils/hooks';
 import { useEffect } from 'react';
 import { SettingState } from '../utils/reducer';
+import Twitter from '../assets/icons/Twitter';
+import Flickr from '../assets/icons/Flickr';
+import Instagram from '../assets/icons/Instagram';
+import Steam from '../assets/icons/Steam';
+import Web from '../assets/icons/Web';
 
 interface GridProps {
     images: Shot[],
+    authors: any,
     rowTargetHeight?: number,
     borderOffset?: number,
     state: SettingState,
@@ -15,6 +21,7 @@ interface GridProps {
 
 const ImageGrid = ({
     images,
+    authors,
     rowTargetHeight = 400,
     borderOffset = 7,
     state,
@@ -33,12 +40,16 @@ const ImageGrid = ({
             width = width * (rowTargetHeight / height);
 
             const image = {
+                id: images[i].id,
                 imageUrl: images[i].imageUrl,
                 messageUrl: images[i].messageUrl,
                 name: images[i].name,
+                displayName: images[i].displayName,
+                nickname: images[i].nickname,
                 width: width * state.gridSize,
                 height: rowTargetHeight * state.gridSize,
-                createdAt: images[i].createdAt
+                createdAt: images[i].createdAt,
+                authorData: authors && images[i].id ? authors[images[i].id!] : undefined
             };
 
             processedImages.push(image);
@@ -196,7 +207,7 @@ const ImageGrid = ({
                 {rows.map((row, index) => {
                     return (
                         <div key={index} id={`row-${index}`} className="image-row">
-                            {row.map((image: Shot, imageIndex: number) => {
+                            {row.map((image: Shot & {authorData: Author}, imageIndex: number) => {
                                 let isTomorrow = false
                                 let isRowEnd = false
 
@@ -260,7 +271,15 @@ const ImageGrid = ({
                                             </div>
                                             <div className="image-info" style={{ opacity: state.hudOpacity }}>
                                                 <div className="game">
-                                                    {image.name}
+                                                    <div title={image?.nickname || image?.displayName || ""}>{image.name}</div>
+                                                    {/* <span>{image?.authorData?.authorid}</span> */}
+                                                    {image?.authorData?.twitter && (<div className='icon' title={image.authorData.twitter} onClick={() => window.open(image.authorData.twitter, "_blank")}><Twitter /></div>)}
+                                                    {image?.authorData?.flickr && (<div className='icon' title={image.authorData.flickr} onClick={() => window.open(image.authorData.flickr, "_blank")}><Flickr /></div>)}
+                                                    {image?.authorData?.instagram && (<div className='icon' title={image.authorData.instagram} onClick={() => window.open(image.authorData.instagram, "_blank")}><Instagram /></div>)}
+                                                    {image?.authorData?.steam && (<div className='icon' title={image.authorData.steam} onClick={() => window.open(image.authorData.steam, "_blank")}><Steam /></div>)}
+                                                    {image?.authorData?.othersocials?.length > 0 && image.authorData.othersocials.map((soc) => (
+                                                        <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")}><Web /></div>
+                                                    ))}
                                                 </div>
                                                 {/* <div>
                                 <span className="by">by</span>{' '}

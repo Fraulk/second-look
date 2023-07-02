@@ -70,14 +70,47 @@ body {
   height: 32px;
 }
 
-.image-row .thumbnail-container:focus .image-info div,
+/* .image-row .thumbnail-container:focus .image-info div,
 .image-row .thumbnail-container:hover .image-info div {
   height: 20px;
-}
+} */
 
 .image-row .image-info .author {
   font-weight: 600;
   color: #fff;
+}
+
+.image-row .image-info .game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .25rem;
+  overflow-x: auto;
+}
+
+.image-row .image-info .game::-webkit-scrollbar {
+  height: 12px;
+  width: 6px;
+  background: #00000000;
+}
+
+.image-row .image-info .game::-webkit-scrollbar-thumb {
+  background: #9c0135;
+  -webkit-border-radius: 1ex;
+}
+
+.image-row .image-info .game::-webkit-scrollbar-corner {
+  background: #ffffff;
+}
+
+.image-row .image-info .game .icon {
+  display: flex;
+  cursor: pointer;
+}
+
+.image-row .image-info svg {
+  width: 24px;
+  height: 24px;
 }
 
 .image-row .thumbnail-container img.spoiler {
