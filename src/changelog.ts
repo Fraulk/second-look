@@ -5,6 +5,13 @@ export interface IChangelog {
 
 export const changelog: IChangelog[] = [
     {
+        date: new Date("2023-07-02"),
+        content: `# Add socials
+        Added authors socials next to their names  
+        (links are taken from the #share-your-socials channel, exactly like the hof website)
+        `
+    },
+    {
         date: new Date("2023-06-30"),
         content: `# Bugfix
         Fixed clicking a link and get all shots marked as seen when the "Mark all shot as seen at close" setting was checked  
