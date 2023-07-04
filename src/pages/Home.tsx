@@ -125,14 +125,6 @@ export const Home = (props: any) => {
                             Load more
                         </div>
                     }
-                    {/* <div className="selectLink">
-                  <span onClick={() => setLink(true)} className={link ? 'selectedLink' : ''}>
-                    HTTP link
-                  </span>
-                  <span onClick={() => setLink(false)} className={!link ? 'selectedLink' : ''}>
-                    App link
-                  </span>
-                </div> */}
                     <Settings state={state} dispatch={dispatch} />
                     <div className="tutorial" style={{ opacity: state.hudOpacity }} onClick={() => setStep(0)}>
                         <Tooltip content="About this website">
@@ -147,7 +139,7 @@ export const Home = (props: any) => {
                     </div>
                 </>
                 ||
-                <div className="error-message">No id specified</div>
+                <div className="error-message">No shots to show (this isn't normal, try refreshing or contact me)</div>
             }
         </div>
     )

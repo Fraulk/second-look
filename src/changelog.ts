@@ -5,6 +5,12 @@ export interface IChangelog {
 
 export const changelog: IChangelog[] = [
     {
+        date: new Date("2023-07-04"),
+        content: `# Add root page
+        Added a page at the site's root (when there is no id in the url) and shows all existing second look list
+        `
+    },
+    {
         date: new Date("2023-07-02"),
         content: `# Add socials
         Added authors socials next to their names  

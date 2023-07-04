@@ -355,6 +355,34 @@ body {
   animation: blurIn .2s ease-out forwards;
 }
 
+.sl-list {
+  padding: 1rem 0;
+  display: flex;
+  flex-flow:  wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.sl-element {
+  width: 30%;
+  height: 15rem;
+  background-color: #424242;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.sl-image {
+  width: 100%;
+  height: 13rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sl-title {
+  padding: 0 1rem;
+}
+
 /* ------------------------- Animation ------------------------- */
 
 @keyframes gradientAnim {
