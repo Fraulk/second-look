@@ -15,8 +15,9 @@ interface GridProps {
     rowTargetHeight?: number,
     borderOffset?: number,
     state: SettingState,
-    onClick?: Function
-    setOpenShot: Function
+    onClick?: Function,
+    setOpenShot: Function,
+    // makeSLListMode: boolean,
 }
 
 const ImageGrid = ({
@@ -26,7 +27,8 @@ const ImageGrid = ({
     borderOffset = 7,
     state,
     onClick,
-    setOpenShot
+    setOpenShot,
+    // makeSLListMode
 }: GridProps) => {
     const { width } = useViewport();
     const maxWidth = width - borderOffset * 2;
@@ -254,6 +256,16 @@ const ImageGrid = ({
                                   onDragStart={(e) => e.preventDefault()}
                                 //   onClick={() => onClick(image)}
                                 /> */}
+                                                <div
+                                                    style={{
+                                                        position: "absolute",
+                                                        // backgroundColor: "red",
+                                                        width: image.width,
+                                                        height: image.height,
+                                                    }}
+                                                    onContextMenu={(e) => e.preventDefault()}
+                                                    onDragStart={(e) => e.preventDefault()}
+                                                ></div>
                                                 <div
                                                     style={{
                                                         backgroundImage: `url("${image.imageUrl}")`,
