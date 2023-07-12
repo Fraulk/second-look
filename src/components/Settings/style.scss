@@ -128,6 +128,7 @@
         }
 
         .batterySlider {
+            display: flex;
             width: 70%;
             height: 42px;
             position: relative;
@@ -209,10 +210,10 @@
 
                 &::-webkit-slider-thumb {
                     -webkit-appearance: none;
-                    width: 33px;
+                    width: 0;
                     height: 38px;
-                    // background-image: url("../assets/svg/slider-thumb.svg"),
-                    //     linear-gradient(to right, var(--bgColor) 50%, var(--emptyBgColor) 50%);
+                    background-image: linear-gradient(to right, #9c0135 50%, transparent 50%);
+                    background-color: #9c0135;
                     background-repeat: no-repeat;
                     background-position: center;
                     box-shadow: -100vw 0 0 100vw #9c0135;
