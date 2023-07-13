@@ -60,8 +60,8 @@ export const ConfirmSLList = (props: ConfirmSLListProps) => {
     const handleDisplayNameChange = (e: any) => setUseDisplayName(e.target.checked)
 
     return (
-        <div className="ConfirmSLList" style={{opacity: state.hudOpacity}}>
-            <Modal open={openConfirmSLModal} header={<>Confirm your <span className="second-look" onClick={handleOpenSLChannel}>#second-look</span> list</>} onClose={onClose}>
+        <div className="ConfirmSLList">
+            <Modal open={openConfirmSLModal} header={<>Confirm your <span className="second-look" onClick={handleOpenSLChannel}>#second-look</span> list</>} onClose={onClose} style={{opacity: state.hudOpacity}}>
                 <div className="confirmsllist-body">
                     {isOver2000Char && (
                         <div>The message is over 2000 characters, keep in mind that Discord limits characters for non-nitro users to 2000 and 4000 for nitro users</div>

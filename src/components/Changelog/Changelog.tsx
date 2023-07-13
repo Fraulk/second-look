@@ -18,8 +18,8 @@ export const Changelog = (props: ChangelogProps) => {
     const changelogFile = changelog
 
     return (
-        <div className="Changelog" style={{opacity: state.hudOpacity}}>
-            <Modal open={showChangelog} header={'Changelog'} blockScroll onClose={onClose}>
+        <div className="Changelog">
+            <Modal open={showChangelog} header={'Changelog'} blockScroll onClose={onClose} style={{opacity: state.hudOpacity}}>
                 <div className="changelog-list">
                     {changelogFile.map((chglog: IChangelog, i: number) => (
                         <div className="changelog-content">
