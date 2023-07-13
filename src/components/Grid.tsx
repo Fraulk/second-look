@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Author, Shot } from '../types';
 import { useClickTypeHandler, useViewport } from '../utils/hooks';
 import { useEffect } from 'react';
@@ -17,7 +17,8 @@ interface GridProps {
     state: SettingState,
     onClick?: Function,
     setOpenShot: Function,
-    // makeSLListMode: boolean,
+    makeSLListMode: boolean,
+    setSlList: Function,
 }
 
 const ImageGrid = ({
@@ -28,7 +29,8 @@ const ImageGrid = ({
     state,
     onClick,
     setOpenShot,
-    // makeSLListMode
+    makeSLListMode,
+    setSlList,
 }: GridProps) => {
     const { width } = useViewport();
     const maxWidth = width - borderOffset * 2;
@@ -140,6 +142,7 @@ const ImageGrid = ({
         const isTodayGallery = params.get("id") == "873628046194778123"
         const [isOutOfFocus, setIsOutOfFocus] = useState(false)
         const { handleClickType } = useClickTypeHandler(state)
+        const [selectedSLList, setSelectedSLList] = useState<number[]>([])
 
         useEffect(() => {
             if (!isTodayGallery) {
@@ -186,11 +189,28 @@ const ImageGrid = ({
                 return
             }
             if (state.openLinkClick == clickType) {
-                handleClickType(image.messageUrl)
-                setIsOutOfFocus(true)
+                if (makeSLListMode)
+                    handleSLImageList(!selectedSLList.includes(image.createdAt), image)
+                else {
+                    handleClickType(image.messageUrl)
+                    setIsOutOfFocus(true)
+                }
             }
             else
                 setOpenShot(rows[index][imageIndex])
+        }
+
+        const handleSLImageList = (checked: boolean, image: Shot) => {
+            if (image.createdAt == undefined) return
+            if (checked)  {
+                if (selectedSLList.length >= 30) return
+                setSelectedSLList((prev) => [...prev, image.createdAt])
+                setSlList((prevList: Shot[]) => [...prevList, image])
+            }
+            else {
+                setSelectedSLList((prev) => prev.filter(item => item != image.createdAt))
+                setSlList((prevList: Shot[]) => prevList.filter(item => item.createdAt != image.createdAt))
+            }
         }
 
         return (
@@ -243,25 +263,14 @@ const ImageGrid = ({
                                                         onContextMenu={(e) => e.preventDefault()}
                                                     >SEEN</div> || ""
                                                 }
-                                                {/* <img
-                                  key={`img-${index}-${imageIndex}`}
-                                  id={`img-${index}-${imageIndex}`}
-                                  src={image.imageUrl}
-                                  style={{
-                                      width: Math.ceil(image.width),
-                                      height: image.height,
-                                      cursor: 'pointer',
-                                  }}
-                                  onContextMenu={(e) => e.preventDefault()}
-                                  onDragStart={(e) => e.preventDefault()}
-                                //   onClick={() => onClick(image)}
-                                /> */}
                                                 <div
+                                                    className={selectedSLList.includes(image.createdAt ?? 0) && makeSLListMode ? "sl-selected" : ""}
                                                     style={{
                                                         position: "absolute",
                                                         // backgroundColor: "red",
                                                         width: image.width,
                                                         height: image.height,
+                                                        opacity: state.hudOpacity,
                                                     }}
                                                     onContextMenu={(e) => e.preventDefault()}
                                                     onDragStart={(e) => e.preventDefault()}
@@ -293,11 +302,13 @@ const ImageGrid = ({
                                                         <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")}><Web /></div>
                                                     ))}
                                                 </div>
-                                                {/* <div>
-                                <span className="by">by</span>{' '}
-                                <span className="author">{image.author}</span>
-                            </div> */}
                                             </div>
+                                            {makeSLListMode &&
+                                                <div className="image-sl-checkbox">
+                                                    <input type="checkbox" name={`${index}-${imageIndex}`} checked={selectedSLList.includes(image.createdAt!)} onChange={(e) => handleSLImageList(e.target.checked, image)} />
+                                                    <span className="checkmark" style={{ opacity: state.hudOpacity }}></span>
+                                                </div>
+                                            }
                                         </div>
                                         <span style={{ position: "relative", left: isRowEnd && -12 || "0", opacity: state.hudOpacity }}>
                                             {isTomorrow && <span className="dateSeparator">{isTomorrow && new Date(image.createdAt! * 1000).toLocaleDateString()}<span className='arrow'>╲╱</span></span>}

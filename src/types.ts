@@ -1,13 +1,13 @@
 export interface Shot {
-    id?: number,
+    id: number,
     width: number,
     height: number,
     name: string,
-    displayName?: string,
-    nickname?: string,
+    displayName: string,
+    nickname: string,
     imageUrl: string,
     messageUrl: string,
-    createdAt?: number,
+    createdAt: number,
 }
 
 export interface Author {

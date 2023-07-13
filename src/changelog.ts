@@ -5,6 +5,12 @@ export interface IChangelog {
 
 export const changelog: IChangelog[] = [
     {
+        date: new Date("2023-07-13"),
+        content: `# Add second look list maker
+        You can now make a second look list and paste it on the #second-look channel by clicking on the eye button on the bottom right and selecting the shots and then confirm by clicking on the checkmark
+        `
+    },
+    {
         date: new Date("2023-07-04"),
         content: `# Add root page
         Added a page at the site's root (when there is no id in the url) and shows all existing second look list

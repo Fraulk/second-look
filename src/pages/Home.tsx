@@ -12,6 +12,10 @@ import Alert from "../assets/icons/Alert";
 import { Tooltip } from "../components/Tooltip/Tooltip";
 import { Changelog } from "../components/Changelog/Changelog";
 import { changelog } from "../changelog";
+import Eye from "../assets/icons/Eye";
+import { Modal } from "../components/Modal/Modal";
+import Checkmark from "../assets/icons/Checkmark";
+import { ConfirmSLList } from "../components/ConfirmSLList/ConfirmSLList";
 
 export const Home = (props: any) => {
     const [shots, setShots] = useState([])
@@ -30,6 +34,9 @@ export const Home = (props: any) => {
     const shotCountAtLoad = !isTodayGallery ? 100 : (state.shotCountAtLoad ?? 100)
     const [showChangelog, setShowChangelog] = useState(false)
     const [newChangelog, setNewChangelog] = useState(0)
+    const [makeSLListMode, setMakeSLListMode] = useState(false)
+    const [slList, setSlList] = useState<Shot[]>([])
+    const [openConfirmSLModal, setOpenConfirmSLModal] = useState(false)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots = obj;
@@ -99,6 +106,11 @@ export const Home = (props: any) => {
         setNewChangelog(0)
     }
 
+    const handleOpenConfirmModal = () => {
+        setOpenConfirmSLModal(false)
+        setMakeSLListMode(false)
+    }
+
     return (
         <div className="home">
             {step <= 3 && shots && shots.length > 0 &&
@@ -113,13 +125,16 @@ export const Home = (props: any) => {
             {showChangelog &&
                 <Changelog state={state} showChangelog={showChangelog} newChangelog={newChangelog} onClose={handleCloseChangelog} />
             }
+            {openConfirmSLModal &&
+                <ConfirmSLList state={state} openConfirmSLModal={openConfirmSLModal} onClose={handleOpenConfirmModal} slList={slList} />
+            }
             <Filter autocomplete={authorsSearch} onFilter={onFilter} state={state} />
             {shots && shots.length > 0 &&
                 <>
                     {openShot != null &&
                         <OpenedShot shot={openShot} closeShot={() => setOpenShot(null)} state={state} images={filteredShots || shots} />
                     }
-                    <ImageGrid images={filteredShots || shots} authors={authors} borderOffset={5} state={state} setOpenShot={setOpenShot} />
+                    <ImageGrid images={filteredShots || shots} authors={authors} borderOffset={5} state={state} setOpenShot={setOpenShot} makeSLListMode={makeSLListMode} setSlList={setSlList} />
                     {shotCount > 100 && allShots.length > 0 && !filteredShots &&
                         <div className="more-shots" style={{ opacity: state.hudOpacity }} onClick={handleLoadMore}>
                             Load more
@@ -137,6 +152,19 @@ export const Home = (props: any) => {
                             <Alert />
                         </Tooltip>
                     </div>
+                    <div className="second-look-icon" style={{ opacity: state.hudOpacity }} onClick={() => setMakeSLListMode((prev) => !prev)}>
+                        {makeSLListMode && <div className="changelog-count">{slList.length}</div>}
+                        <Tooltip content="Make a second look list">
+                            <Eye />
+                        </Tooltip>
+                    </div>
+                    {makeSLListMode &&
+                        <div className="second-look-check" style={{ opacity: state.hudOpacity }} onClick={() => setOpenConfirmSLModal(true)}>
+                            <Tooltip content="Confirm the second look list">
+                                <Checkmark />
+                            </Tooltip>
+                        </div>
+                    }
                 </>
                 ||
                 <div className="error-message">No shots to show (this isn't normal, try refreshing or contact me)</div>
