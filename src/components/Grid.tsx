@@ -166,6 +166,7 @@ const ImageGrid = ({
 
         useEffect(() => {
             if (!state.markAtClose) return
+            if (!isTodayGallery) return
             const markOnClose = (e: any) => handleSavePosition(0, 0, rows[0][0].createdAt, true)
             window.addEventListener('beforeunload', markOnClose)
             return () => {
