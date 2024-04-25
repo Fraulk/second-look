@@ -7,6 +7,7 @@ export interface SettingState {
     gridSize: number;
     hudOpacity: number;
     markAtClose: boolean;
+    showHoffed: boolean;
 }
 
 export const initialState = {
@@ -18,6 +19,7 @@ export const initialState = {
     gridSize: 1,
     hudOpacity: 1,
     markAtClose: false,
+    showHoffed: false,
 }
 
 const saveCurrentState = (state: SettingState) => {
@@ -64,6 +66,9 @@ export const reducer = (state: SettingState, action: {type: string, payload: any
 
         case "markAtClose":
             return saveCurrentState({...state, markAtClose: action.payload})
+
+        case "showHoffed":
+            return saveCurrentState({...state, showHoffed: action.payload})
     
         default:
             return {...state}

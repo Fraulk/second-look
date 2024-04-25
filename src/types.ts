@@ -8,6 +8,7 @@ export interface Shot {
     imageUrl: string,
     messageUrl: string,
     createdAt: number,
+    isHoffed?: boolean,
 }
 
 export interface Author {

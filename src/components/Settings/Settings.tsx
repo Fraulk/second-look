@@ -44,6 +44,7 @@ export const Settings = ({state, dispatch}: SettingsProps) => {
         {name: "gridSize", label: 'Grid size', info: 'Change this option to reduce or enlarge the size of images in the grid (click on the percentage to manually type a value)', type: "slider", showOnlyOnTodaysGallery: false, max: 200, min: 30},
         {name: "hudOpacity", label: 'HUD opacity', info: 'Change the opacity of overything except images', type: "slider", showOnlyOnTodaysGallery: false, max: 100, min: 0},
         {name: "markAtClose", label: 'Mark all shot as seen at close', info: 'Mark every shots as seen the moment you close the website', type: "boolean", showOnlyOnTodaysGallery: true},
+        {name: "showHoffed", label: 'Show hoffed shots', info: 'It will filter out the shots that are already in the Hall Of Frame', type: "boolean", showOnlyOnTodaysGallery: true},
     ]
 
     return (

@@ -39,6 +39,7 @@ const ImageGrid = ({
         const processedImages = [];
 
         for (let i = 0; i < images.length; i++) {
+            if (images[i].isHoffed && !state.showHoffed) continue;
             let width = +images[i].width
             const height = +images[i].height
             width = width * (rowTargetHeight / height);
@@ -53,7 +54,8 @@ const ImageGrid = ({
                 width: width * state.gridSize,
                 height: rowTargetHeight * state.gridSize,
                 createdAt: images[i].createdAt,
-                authorData: authors && images[i].id ? authors[images[i].id!] : undefined
+                authorData: authors && images[i].id ? authors[images[i].id!] : undefined,
+                isHoffed: images[i].isHoffed,
             };
 
             processedImages.push(image);
