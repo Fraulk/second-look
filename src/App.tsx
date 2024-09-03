@@ -6,6 +6,7 @@ import { Home } from './pages/Home'
 import { Author } from './types';
 import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
 import { TODAYS_GALLERY_ID } from './utils/utils';
+import NewTab from './components/NewTab/NewTab';
 
 const App = () => {
     const dbRef = ref(getDatabase());
@@ -15,7 +16,7 @@ const App = () => {
 
     const handleAuthorsData = async (authorsData: any) => {
         const authors = await authorsData.json()
-        const authorList: Author[] = Object.values(authors._default) // trying to get rid of my oneliner syndrome
+        const authorList: Author[] = Object.values(authors._default)
         const normalizedAuthors: any = {}
         authorList.map((author: Author) => normalizedAuthors[author.authorid] = author)
         setAuthors(normalizedAuthors)
@@ -60,6 +61,11 @@ const App = () => {
         {
             path: "/gallery/:id",
             element: <Home />,
+            errorElement: <Error404 />
+        },
+        {
+            path: "/new-tab",
+            element: <NewTab />,
             errorElement: <Error404 />
         },
     ]);
