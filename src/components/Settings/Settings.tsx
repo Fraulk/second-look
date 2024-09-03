@@ -1,6 +1,7 @@
 import { ChangeEvent, Dispatch } from "react";
 import { SettingState } from "../../utils/reducer";
 import "./style.scss"
+import { TODAYS_GALLERY_ID, TODAYS_GALLERY_SLUG } from "../../utils/utils";
 
 interface SettingsProps {
     state: SettingState | any;
@@ -18,8 +19,8 @@ interface SettingList {
 }
 
 export const Settings = ({state, dispatch}: SettingsProps) => {
-    const params = new URLSearchParams(window.location.search);
-    const isTodayGallery = params.get("id") == "873628046194778123"
+    const galleryId = window.location.pathname.split("/").pop()
+    const isTodayGallery = galleryId == TODAYS_GALLERY_ID || galleryId == TODAYS_GALLERY_SLUG
 
     const handleSettingChange = (e: any) => {
         dispatch({type: e.target.name, payload: e.target.checked})

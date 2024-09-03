@@ -11,3 +11,6 @@ export const parseMarkdown = (content: string) => {
 
     return toHTML.trim();
 }
+
+export const TODAYS_GALLERY_ID = "873628046194778123"
+export const TODAYS_GALLERY_SLUG = "todays-gallery"
