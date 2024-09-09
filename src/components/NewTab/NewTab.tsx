@@ -14,23 +14,22 @@ const NewTab = () => {
     const [currentShot, setCurrentShot] = useState<Shot>()
     const [authors, setAuthors] = useState<Author[]>()
     const [currentAuthor, setCurrentAuthor] = useState<Author>()
-    console.log(currentShot)
-    console.log(currentAuthor)
-    console.log(authors)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots: Shot[] = obj;
         respShots = Object.values(respShots)
         const windowAR = window.innerWidth / window.innerHeight
         const filteredShots = respShots.filter((shot: Shot) => Math.abs((shot.width / shot.height) - windowAR) < 1 && windowAR >= 1 && shot.width / shot.height >= 1) // || windowAR < 1 && shot.width / shot.height < 1
-        const currShot = filteredShots[Math.floor(Math.random() * respShots.length)]
+        const randomPos = Math.floor(Math.random() * filteredShots.length)
+        const currShot = filteredShots[randomPos]
         setCurrentShot(currShot)
-        setCurrentAuthor(authors && authors[currShot.id])
+        if (authors && authors[currShot.id])
+            setCurrentAuthor(authors[currShot.id])
     }
 
     const handleAuthorsData = async (authorsData: any) => {
         const authors = await authorsData.json()
-        const authorList: Author[] = Object.values(authors._default) // trying to get rid of my oneliner syndrome
+        const authorList: Author[] = Object.values(authors._default)
         const normalizedAuthors: any = {}
         authorList.map((author: Author) => normalizedAuthors[author.authorid] = author)
         setAuthors(normalizedAuthors)
@@ -44,6 +43,11 @@ const NewTab = () => {
         fetch("https://raw.githubusercontent.com/originalnicodrgitbot/hall-of-framed-db/main/authorsdb.json")
             .then(handleAuthorsData)
     }, [])
+
+    useEffect(() => {
+        if (currentShot && authors)
+            setCurrentAuthor(authors[currentShot.id])
+    }, [currentShot, authors])
 
     return (
         <div className="new-tab">
@@ -63,7 +67,7 @@ const NewTab = () => {
                         {currentAuthor?.instagram && (<div className='icon' title={currentAuthor.instagram} onClick={() => window.open(currentAuthor.instagram, "_blank")}><Instagram /></div>)}
                         {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open(currentAuthor.steam, "_blank")}><Steam /></div>)}
                         {currentAuthor?.othersocials?.length > 0 && currentAuthor.othersocials.map((soc) => (
-                            <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")}><Web /></div>
+                            <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")} key={soc}><Web /></div>
                         ))}
                     </>
                 ) : (
