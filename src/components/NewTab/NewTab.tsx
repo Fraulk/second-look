@@ -14,6 +14,8 @@ const NewTab = () => {
     const [currentShot, setCurrentShot] = useState<Shot>()
     const [authors, setAuthors] = useState<Author[]>()
     const [currentAuthor, setCurrentAuthor] = useState<Author>()
+    const now = new Date()
+    const [currentTime, setCurrentTime] = useState(now)
 
     const firebaseObjToArray = (obj: any) => {
         let respShots: Shot[] = obj;
@@ -42,6 +44,12 @@ const NewTab = () => {
 
         fetch("https://raw.githubusercontent.com/originalnicodrgitbot/hall-of-framed-db/main/authorsdb.json")
             .then(handleAuthorsData)
+        
+        const intervalId = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000)
+
+        return () => clearInterval(intervalId);
     }, [])
 
     useEffect(() => {
@@ -57,6 +65,15 @@ const NewTab = () => {
                 className="new-tab-image"
                 onDragStart={(e) => e.preventDefault()}
             />
+            <div className="datetime">
+                <div className="time">
+                    {currentTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false })}
+                </div>
+                <div className="sep"></div>
+                <div className="date">
+                    {currentTime.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+            </div>
             <div className="links">
                 {currentAuthor != undefined ? (
                     <>
