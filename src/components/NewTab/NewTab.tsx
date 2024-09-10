@@ -8,6 +8,14 @@ import Instagram from "../../assets/icons/Instagram"
 import Steam from "../../assets/icons/Steam"
 import Twitter from "../../assets/icons/Twitter"
 import Web from "../../assets/icons/Web"
+import ConfigPanel from "../ConfigPanel/ConfigPanel"
+
+export interface ConfigList {
+    datetime: boolean;
+    datetimePosition: string;
+    hours12: boolean;
+    color: string;
+}
 
 const NewTab = () => {
     const dbRef = ref(getDatabase());
@@ -16,6 +24,13 @@ const NewTab = () => {
     const [currentAuthor, setCurrentAuthor] = useState<Author>()
     const now = new Date()
     const [currentTime, setCurrentTime] = useState(now)
+    const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false)
+    const [config, setConfig] = useState<ConfigList>({
+        datetime: true,
+        datetimePosition: "center",
+        hours12: false,
+        color: "#ffffff",
+    })
 
     const firebaseObjToArray = (obj: any) => {
         let respShots: Shot[] = obj;
@@ -35,6 +50,10 @@ const NewTab = () => {
         const normalizedAuthors: any = {}
         authorList.map((author: Author) => normalizedAuthors[author.authorid] = author)
         setAuthors(normalizedAuthors)
+    }
+
+    const handleConfigChange = (newConfig: ConfigList) => {
+        setConfig(newConfig)
     }
 
     useEffect(() => {
@@ -59,21 +78,24 @@ const NewTab = () => {
 
     return (
         <div className="new-tab">
+            <ConfigPanel config={config} onConfigChange={handleConfigChange} open={isConfigPanelOpen} onClose={() => setIsConfigPanelOpen(false)} />
             <img
                 src={currentShot?.imageUrl}
                 alt=""
                 className="new-tab-image"
                 onDragStart={(e) => e.preventDefault()}
             />
-            <div className="datetime">
-                <div className="time">
-                    {currentTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false })}
+            {config.datetime && (
+                <div className={`datetime ${config.datetimePosition}`} style={{color: config.color}}>
+                    <div className="time">
+                        {currentTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: config.hours12 })}
+                    </div>
+                    <div className="sep"></div>
+                    <div className="date">
+                        {currentTime.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    </div>
                 </div>
-                <div className="sep"></div>
-                <div className="date">
-                    {currentTime.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                </div>
-            </div>
+            )}
             <div className="links">
                 {currentAuthor != undefined ? (
                     <>
