@@ -89,6 +89,7 @@ const NewTab = () => {
                 alt=""
                 className="new-tab-image"
                 onDragStart={(e) => e.preventDefault()}
+                onLoad={(e) => e.currentTarget.style.opacity = "1"}
             />
             {config.datetime && (
                 <div className={`datetime ${config.datetimePosition}`} style={{color: config.color}}>
