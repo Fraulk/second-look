@@ -4,7 +4,7 @@ import './App.css'
 import { Onboarding } from './components/Onboarding/Onboarding'
 import { Home } from './pages/Home'
 import { Author } from './types';
-import { createBrowserRouter, createHashRouter, RouterProvider, useNavigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
 import { TODAYS_GALLERY_ID } from './utils/utils';
 import NewTab from './components/NewTab/NewTab';
 
@@ -52,7 +52,7 @@ const App = () => {
         </div>
     )
 
-    const router = createHashRouter([
+    const router = createBrowserRouter([
         {
             path: "/",
             element: <AllCollection allCollections={allCollections} authors={authors} />,
