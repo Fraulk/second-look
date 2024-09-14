@@ -1,5 +1,5 @@
 import { getDatabase, ref, child, get } from "firebase/database";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Info from "../assets/icons/Info";
 import { Filter } from "../components/Filter/Filter";
 import ImageGrid from "../components/Grid";
@@ -13,9 +13,9 @@ import { Tooltip } from "../components/Tooltip/Tooltip";
 import { Changelog } from "../components/Changelog/Changelog";
 import { changelog } from "../changelog";
 import Eye from "../assets/icons/Eye";
-import { Modal } from "../components/Modal/Modal";
 import Checkmark from "../assets/icons/Checkmark";
 import { ConfirmSLList } from "../components/ConfirmSLList/ConfirmSLList";
+import { TODAYS_GALLERY_ID, TODAYS_GALLERY_SLUG } from "../utils/utils";
 
 export const Home = (props: any) => {
     const [shots, setShots] = useState([])
@@ -24,13 +24,13 @@ export const Home = (props: any) => {
     const [filteredShots, setFilteredShots] = useState<Shot[] | undefined>(undefined)
     const [shotCount, setShotCount] = useState(0)
     const [authorsSearch, setAuthorsSearch] = useState<string[]>([])
-    const params = new URLSearchParams(window.location.search);
+    const galleryId = window.location.pathname.split("/").pop()
     const dbRef = ref(getDatabase());
     const [state, dispatch] = useReducer(reducer, initialState, createInitialState)
     const [openShot, setOpenShot] = useState(null)
     const [random, setRandom] = useState(Math.random())
     const [step, setStep] = useState(99)
-    const isTodayGallery = params.get("id") == "873628046194778123"
+    const isTodayGallery = galleryId == TODAYS_GALLERY_ID || galleryId == TODAYS_GALLERY_SLUG
     const shotCountAtLoad = !isTodayGallery ? 100 : (state.shotCountAtLoad ?? 100)
     const [showChangelog, setShowChangelog] = useState(false)
     const [newChangelog, setNewChangelog] = useState(0)
@@ -91,7 +91,7 @@ export const Home = (props: any) => {
     }
 
     useEffect(() => {
-        get(child(dbRef, `${params.get("id")}`))
+        get(child(dbRef, `${isTodayGallery ? TODAYS_GALLERY_ID : galleryId}`))
             .then((shots) => shots.exists() && firebaseObjToArray(shots.val()))
             .catch((error) => console.error(error))
 

@@ -1,0 +1,62 @@
+.config-panel {
+    position: fixed;
+    right: calc(-15vw - 2px);
+    width: calc(15vw - 2px);
+    height: 100vh;
+    background-color: #0000005e;
+    backdrop-filter: blur(10px);
+    border-left: 2px solid #737373;
+    // box-shadow: 0px 0px 10px 0px #0000005e;
+    transition: right 0.3s cubic-bezier(.08,.82,.17,1);
+    z-index: 2;
+
+    &.open {
+        right: 0;
+    }
+
+    .close {
+        color: white;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.818));
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    .config-list {
+        margin: 1rem;
+        margin-top: 2rem;
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #737373;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .config-item-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+
+            .config-item-value {
+                font-size: 1.5rem;
+                font-weight: 400;
+            }
+
+            input[type="color"] {
+                all: unset;
+                width: 3rem;
+                height: 1.5rem;
+                border-radius: 8px;
+            }
+        }
+    }
+}

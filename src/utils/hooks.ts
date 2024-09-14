@@ -59,7 +59,7 @@ export const useKeyPress = (keys: any, specialKey: string, callback: any, node =
     }, [handleKeyPress, node]);
 };
 
-export const useOutsideAlerter = (refs: any, callback: Function) => {
+export const useOutsideAlerter = (refs: any[], callback: Function) => {
     useEffect(() => {
         /**
          * Alert if clicked on outside of element
