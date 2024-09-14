@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:new-tab": "vite --open \"http://localhost:5173/new-tab\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
