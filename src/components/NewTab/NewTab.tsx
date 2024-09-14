@@ -9,6 +9,7 @@ import Steam from "../../assets/icons/Steam"
 import Twitter from "../../assets/icons/Twitter"
 import Web from "../../assets/icons/Web"
 import ConfigPanel from "../ConfigPanel/ConfigPanel"
+import Cog from "../../assets/icons/Cog"
 
 export interface ConfigList {
     datetime: boolean;
@@ -25,7 +26,7 @@ const NewTab = () => {
     const now = new Date()
     const [currentTime, setCurrentTime] = useState(now)
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false)
-    const [config, setConfig] = useState<ConfigList>({
+    const [config, setConfig] = useState<ConfigList>(localStorage.getItem("newTabConfig") ? JSON.parse(localStorage.getItem("newTabConfig") as string) : {
         datetime: true,
         datetimePosition: "center",
         hours12: false,
@@ -54,6 +55,7 @@ const NewTab = () => {
 
     const handleConfigChange = (newConfig: ConfigList) => {
         setConfig(newConfig)
+        localStorage.setItem("newTabConfig", JSON.stringify(newConfig))
     }
 
     useEffect(() => {
@@ -78,6 +80,9 @@ const NewTab = () => {
 
     return (
         <div className="new-tab">
+            <div className="config-btn icon" onClick={() => setIsConfigPanelOpen(true)}>
+                <Cog />
+            </div>
             <ConfigPanel config={config} onConfigChange={handleConfigChange} open={isConfigPanelOpen} onClose={() => setIsConfigPanelOpen(false)} />
             <img
                 src={currentShot?.imageUrl}
@@ -104,7 +109,7 @@ const NewTab = () => {
                         {currentAuthor?.twitter && (<div className='icon' title={currentAuthor.twitter} onClick={() => window.open(currentAuthor.twitter, "_blank")}><Twitter /></div>)}
                         {currentAuthor?.flickr && (<div className='icon' title={currentAuthor.flickr} onClick={() => window.open(currentAuthor.flickr, "_blank")}><Flickr /></div>)}
                         {currentAuthor?.instagram && (<div className='icon' title={currentAuthor.instagram} onClick={() => window.open(currentAuthor.instagram, "_blank")}><Instagram /></div>)}
-                        {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open(currentAuthor.steam, "_blank")}><Steam /></div>)}
+                        {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open("steam://openurl/" + currentAuthor.steam, "_blank")}><Steam /></div>)}
                         {currentAuthor?.othersocials?.length > 0 && currentAuthor.othersocials.map((soc) => (
                             <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")} key={soc}><Web /></div>
                         ))}

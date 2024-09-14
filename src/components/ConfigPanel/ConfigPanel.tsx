@@ -1,5 +1,8 @@
+import { useRef } from "react"
+import { useOutsideAlerter } from "../../utils/hooks"
 import { ConfigList } from "../NewTab/NewTab"
 import "./style.scss"
+import Close from "../../assets/icons/Close"
 
 interface ConfigPanelProps {
     open: boolean,
@@ -10,9 +13,13 @@ interface ConfigPanelProps {
 
 const ConfigPanel = (props: ConfigPanelProps) => {
     const { open, config, onConfigChange, onClose } = props
+    const configPanelRef = useRef(null)
+
+    useOutsideAlerter([configPanelRef], onClose)
 
     return (
-        <div className="config-panel">
+        <div className={`config-panel${open ? " open" : ""}`} ref={configPanelRef}>
+            <div className="close" onClick={() => onClose()}><Close /></div>
             <div className="config-list">
                 <div className="config-item">
                     <label htmlFor="color">Color</label>
