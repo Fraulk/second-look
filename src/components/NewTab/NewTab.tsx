@@ -10,12 +10,48 @@ import Twitter from "../../assets/icons/Twitter"
 import Web from "../../assets/icons/Web"
 import ConfigPanel from "../ConfigPanel/ConfigPanel"
 import Cog from "../../assets/icons/Cog"
+import Eye from "../../assets/icons/Eye"
+import Resize from "../../assets/icons/Resize"
 
 export interface ConfigList {
     datetime: boolean;
     datetimePosition: string;
     hours12: boolean;
     color: string;
+    bgcolor: string;
+    blurBool: boolean;
+    blur: number;
+    opacityBool: boolean;
+    opacity: number;
+    shadowBool: boolean;
+}
+
+let isViewClean = false
+
+// Toggle the distraction free view
+function toggleCleanView(force: boolean) {
+    // Disable various settings
+    if (isViewClean) {
+        document.querySelector('.new-tab').classList.remove('cleaned');
+        document.querySelector('.group-eye')?.classList.remove('active');
+    } else {
+        document.querySelector('.new-tab').classList.add('cleaned');
+        document.querySelector('.group-eye')?.classList.add('active');
+    }
+
+    // Check if datetime exists
+    if (document.querySelector('.datetime')) {
+        // Hide datetime
+        document.querySelector('.datetime').style.opacity = isViewClean ? 1 : 0;
+    }
+
+
+    // set clean state
+    isViewClean = isViewClean ? false : true;
+}
+
+function toggleFullView() {
+    document.querySelector('.new-tab-image')?.classList.toggle('fit');
 }
 
 const NewTab = () => {
@@ -31,7 +67,16 @@ const NewTab = () => {
         datetimePosition: "center",
         hours12: false,
         color: "#ffffff",
+        bgcolor: "#212121",
+        blurBool: false,
+        blur: 5,
+        opacityBool: false,
+        opacity: 1,
+        shadowBool: true,
     })
+
+    // Toggle shadow class for datetime
+    const shadow = config.shadowBool ? 'shadow' : '';
 
     const firebaseObjToArray = (obj: any) => {
         let respShots: Shot[] = obj;
@@ -79,9 +124,21 @@ const NewTab = () => {
     }, [currentShot, authors])
 
     return (
-        <div className="new-tab">
-            <div className="config-btn icon" onClick={() => setIsConfigPanelOpen(true)}>
-                <Cog />
+        <div className="new-tab" style={{backgroundColor: config.bgcolor}}>
+            <div className="icon-tray icon-tray-tr">
+                <div className="icon-group group-eye">
+                    <div className="view-btn icon" onClick={() => toggleCleanView()}>
+                        <Eye />
+                    </div>
+                    <div className="icon-subgroup">
+                        <div className="resize-btn icon" onClick={() => toggleFullView()}>
+                            <Resize />
+                        </div>
+                    </div>
+                </div>
+                <div className="config-btn icon" onClick={() => setIsConfigPanelOpen(true)}>
+                    <Cog />
+                </div>
             </div>
             <ConfigPanel config={config} onConfigChange={handleConfigChange} open={isConfigPanelOpen} onClose={() => setIsConfigPanelOpen(false)} />
             <img
@@ -89,12 +146,13 @@ const NewTab = () => {
                 alt=""
                 className="new-tab-image"
                 onDragStart={(e) => e.preventDefault()}
-                onLoad={(e) => e.currentTarget.style.opacity = "1"}
+                onLoad={(e) => e.currentTarget.style.opacity = (config.opacityBool) ? config.opacity : '1'}
+                style={{filter: (config.blurBool) ? `blur(${config.blur}px)` : 'blur(0px)', opacity: (config.opacityBool) ? config.opacity : '1'}} 
             />
             {config.datetime && (
-                <div className={`datetime ${config.datetimePosition}`} style={{color: config.color}}>
+                <div className={`datetime ${config.datetimePosition} ${shadow}`} style={{color: config.color}}>
                     <div className="time">
-                        {currentTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: config.hours12 })}
+                        {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: config.hours12 })}
                     </div>
                     <div className="sep"></div>
                     <div className="date">

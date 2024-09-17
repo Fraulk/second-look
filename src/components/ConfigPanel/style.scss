@@ -1,3 +1,7 @@
+:root {
+    --themeCol: #9c0135;
+}
+
 .config-panel {
     position: fixed;
     right: calc(-15vw - 2px);
@@ -29,16 +33,32 @@
     .config-list {
         margin: 1rem;
         margin-top: 2rem;
+        
+        & > .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-group[data-toggled="false"] {
+            .config-item:not(:first-child) {
+                height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                border: 0;
+            }
+        }
 
         .config-item {
             display: flex;
+            transition: .25s height;
             justify-content: space-between;
             align-items: center;
             padding: 1rem;
             border-bottom: 1px solid #737373;
+            overflow: hidden;
 
-            &:last-child {
-                border-bottom: none;
+            &.full {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
             .config-item-title {
@@ -56,6 +76,59 @@
                 width: 3rem;
                 height: 1.5rem;
                 border-radius: 8px;
+            }
+
+            input:checked + .slider {
+                background-color: var(--themeCol);
+            }
+
+            input[type="range"] {
+                -webkit-appearance: none !important;
+                background: var(--themeCol);
+                height:5px;
+                width: 100%;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none !important;
+            }
+            
+            input[type="range"]::-webkit-slider-thumb,
+            input[type="range"]::-moz-range-thumb {
+                background:#efefef;
+                height:20px;
+                width:8px;
+                border-radius: 4px;
+                border: 1px solid var(--themeCol);
+            }
+            .simple-range {
+                display: flex;
+                margin-top: 10px;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+
+                // Styles for optional value indicator
+                span {
+                    display: flex;
+                    align-items: flex-end;
+                    font-size: 10px;
+                    margin-left: 2px;
+
+                    input {
+                        width: 30px;
+                        font-size: 16px;
+                        text-align: right;
+                        padding-right: 3px;
+
+                        // Make it look like default text
+                        &:disabled {
+                            background: transparent;
+                            border: none;
+                            color: white;
+                        }
+                    }
+                }
             }
         }
     }
