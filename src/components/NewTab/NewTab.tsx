@@ -26,36 +26,6 @@ export interface ConfigList {
     shadowBool: boolean;
 }
 
-let isViewClean = false
-
-// Toggle the distraction free view
-function toggleCleanView(force: boolean) {
-    // Disable various settings
-    if (isViewClean) {
-        document.querySelector('.new-tab').classList.remove('cleaned');
-        document.querySelector('.group-eye')?.classList.remove('active');
-        document.querySelector('.new-tab-clone')?.classList.remove('active');
-    } else {
-        document.querySelector('.new-tab').classList.add('cleaned');
-        document.querySelector('.group-eye')?.classList.add('active');
-        document.querySelector('.new-tab-clone')?.classList.add('active');
-    }
-
-    // Check if datetime exists
-    if (document.querySelector('.datetime')) {
-        // Hide datetime
-        document.querySelector('.datetime').style.opacity = isViewClean ? 1 : 0;
-    }
-
-
-    // set clean state
-    isViewClean = isViewClean ? false : true;
-}
-
-function toggleFullView() {
-    document.querySelector('.new-tab-image')?.classList.toggle('fit');
-}
-
 const NewTab = () => {
     const dbRef = ref(getDatabase());
     const [currentShot, setCurrentShot] = useState<Shot>()
@@ -64,6 +34,8 @@ const NewTab = () => {
     const now = new Date()
     const [currentTime, setCurrentTime] = useState(now)
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false)
+    const [isFullView, setIsFullView] = useState(false)
+    const [isCleanView, setIsCleanView] = useState(false)
     const [config, setConfig] = useState<ConfigList>(localStorage.getItem("newTabConfig") ? JSON.parse(localStorage.getItem("newTabConfig") as string) : {
         datetime: true,
         datetimePosition: "center",
@@ -126,14 +98,14 @@ const NewTab = () => {
     }, [currentShot, authors])
 
     return (
-        <div className="new-tab" style={{backgroundColor: config.bgcolor}}>
+        <div className={`new-tab ${isCleanView ? "cleaned" : ""}`} style={{backgroundColor: config.bgcolor}}>
             <div className="icon-tray icon-tray-tr">
-                <div className="icon-group group-eye">
-                    <div className="view-btn icon" onClick={() => toggleCleanView()}>
+                <div className={`icon-group group-eye ${isCleanView ? "active" : ""}`}>
+                    <div className="view-btn icon" onClick={() => setIsCleanView((prev) => !prev)}>
                         <Eye />
                     </div>
                     <div className="icon-subgroup">
-                        <div className="resize-btn icon" onClick={() => toggleFullView()}>
+                        <div className="resize-btn icon" onClick={() => setIsFullView((prev) => !prev)}>
                             <Resize />
                         </div>
                     </div>
@@ -146,16 +118,25 @@ const NewTab = () => {
             <img
                 src={currentShot?.imageUrl}
                 alt=""
-                className="new-tab-image"
+                className={`new-tab-image ${isFullView ? 'fit' : ''}`}
                 onDragStart={(e) => e.preventDefault()}
-                onLoad={(e) => e.currentTarget.style.opacity = (config.opacityBool) ? config.opacity : '1'}
+                onLoad={(e) => e.currentTarget.style.opacity = (config.opacityBool) ? `${config.opacity}` : '1'}
                 style={{filter: (config.blurBool) ? `blur(${config.blur}px)` : 'blur(0px)', opacity: (config.opacityBool) ? config.opacity : '1'}} 
             />
             {currentShot?.imageUrl && (
-                <div className="new-tab-clone" style={{backgroundImage: 'url(' + currentShot?.imageUrl + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: 'cover', filter: 'blur(20px)'}}></div>
+                <div
+                    className={`new-tab-clone ${isCleanView ? 'active' : ''}`}
+                    style={{
+                        backgroundImage: 'url(' + currentShot?.imageUrl + ')',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center center',
+                        backgroundSize: 'cover',
+                        filter: 'blur(20px)'
+                    }}
+                ></div>
             )}
             {config.datetime && (
-                <div className={`datetime ${config.datetimePosition} ${shadow}`} style={{color: config.color}}>
+                <div className={`datetime ${config.datetimePosition} ${shadow}`} style={{color: config.color, opacity: isCleanView ? 0 : 1}}>
                     <div className="time">
                         {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: config.hours12 })}
                     </div>

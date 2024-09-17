@@ -43,8 +43,8 @@ const ConfigPanel = (props: ConfigPanelProps) => {
                     <div className="config-item full">
                         <label htmlFor="blur">Blur Amount</label>
                         <div className="simple-range">
-                            <input type="range" id="blur" min="0" max="10" value={config.blur} onChange={(e) => onConfigChange({...config, blur: e.target.value})} />
-                            <span><input disabled name="blur" value={config.blur} />px</span>
+                            <input type="range" id="blur" min="0" max="10" value={config.blur} onChange={(e) => onConfigChange({...config, blur: +e.target.value})} />
+                            <span>{config.blur}px</span>
                         </div>
                     </div>
                 </div>
@@ -59,8 +59,8 @@ const ConfigPanel = (props: ConfigPanelProps) => {
                     <div className="config-item full">
                         <label htmlFor="opacity">Opacity Amount</label>
                         <div className="simple-range">
-                            <input type="range" id="opacity" min="0" max="1" step=".05" value={config.opacity} onChange={(e) => onConfigChange({...config, opacity: e.target.value})} />
-                            <span><input disabled name="opacity" value={Math.floor(config.opacity * 100)} />%</span>
+                            <input type="range" id="opacity" min="0" max="1" step=".05" value={config.opacity} onChange={(e) => onConfigChange({...config, opacity: +e.target.value})} />
+                            <span>{Math.floor(config.opacity * 100)}%</span>
                         </div>
                     </div>
                     <div className="config-item">

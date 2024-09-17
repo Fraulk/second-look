@@ -84,23 +84,21 @@
 
             input[type="range"] {
                 -webkit-appearance: none !important;
+                appearance: none !important;
                 background: var(--themeCol);
                 height:5px;
                 width: 100%;
             }
 
-            input[type="range"]::-webkit-slider-thumb {
-                -webkit-appearance: none !important;
-            }
-            
             input[type="range"]::-webkit-slider-thumb,
             input[type="range"]::-moz-range-thumb {
-                background:#efefef;
-                height:20px;
-                width:8px;
+                background: #efefef;
+                height: 20px;
+                width: 8px;
                 border-radius: 4px;
                 border: 1px solid var(--themeCol);
             }
+
             .simple-range {
                 display: flex;
                 margin-top: 10px;
@@ -108,26 +106,16 @@
                 align-items: center;
                 width: 100%;
 
-                // Styles for optional value indicator
                 span {
                     display: flex;
                     align-items: flex-end;
                     font-size: 10px;
-                    margin-left: 2px;
-
-                    input {
-                        width: 30px;
-                        font-size: 16px;
-                        text-align: right;
-                        padding-right: 3px;
-
-                        // Make it look like default text
-                        &:disabled {
-                            background: transparent;
-                            border: none;
-                            color: white;
-                        }
-                    }
+                    margin-left: 8px;
+                    margin-bottom: 5px;
+                    width: 30px;
+                    font-size: 16px;
+                    text-align: right;
+                    color: white;
                 }
             }
         }
