@@ -36,7 +36,7 @@ const ConfigPanel = (props: ConfigPanelProps) => {
                     <div className="config-item">
                         <label htmlFor="blurBool">Blur</label>
                         <label className="setting-switch">
-                            <input type="checkbox" id="blurBool" checked={config.blurBool} onChange={(e) => {onConfigChange({...config, blurBool: e.target.checked}); toggleGroup('blur-group');}} />
+                            <input type="checkbox" id="blurBool" checked={config.blurBool} onChange={(e) => onConfigChange({...config, blurBool: e.target.checked})} />
                             <span className="slider round"></span>
                         </label>
                     </div>

@@ -34,9 +34,11 @@ function toggleCleanView(force: boolean) {
     if (isViewClean) {
         document.querySelector('.new-tab').classList.remove('cleaned');
         document.querySelector('.group-eye')?.classList.remove('active');
+        document.querySelector('.new-tab-clone')?.classList.remove('active');
     } else {
         document.querySelector('.new-tab').classList.add('cleaned');
         document.querySelector('.group-eye')?.classList.add('active');
+        document.querySelector('.new-tab-clone')?.classList.add('active');
     }
 
     // Check if datetime exists
@@ -149,6 +151,9 @@ const NewTab = () => {
                 onLoad={(e) => e.currentTarget.style.opacity = (config.opacityBool) ? config.opacity : '1'}
                 style={{filter: (config.blurBool) ? `blur(${config.blur}px)` : 'blur(0px)', opacity: (config.opacityBool) ? config.opacity : '1'}} 
             />
+            {currentShot?.imageUrl && (
+                <div className="new-tab-clone" style={{backgroundImage: 'url(' + currentShot?.imageUrl + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: 'cover', filter: 'blur(20px)'}}></div>
+            )}
             {config.datetime && (
                 <div className={`datetime ${config.datetimePosition} ${shadow}`} style={{color: config.color}}>
                     <div className="time">
@@ -165,13 +170,15 @@ const NewTab = () => {
                     <>
                         <span>{currentAuthor?.authorNick}</span>
                         |
-                        {currentAuthor?.twitter && (<div className='icon' title={currentAuthor.twitter} onClick={() => window.open(currentAuthor.twitter, "_blank")}><Twitter /></div>)}
-                        {currentAuthor?.flickr && (<div className='icon' title={currentAuthor.flickr} onClick={() => window.open(currentAuthor.flickr, "_blank")}><Flickr /></div>)}
-                        {currentAuthor?.instagram && (<div className='icon' title={currentAuthor.instagram} onClick={() => window.open(currentAuthor.instagram, "_blank")}><Instagram /></div>)}
-                        {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open("steam://openurl/" + currentAuthor.steam, "_blank")}><Steam /></div>)}
-                        {currentAuthor?.othersocials?.length > 0 && currentAuthor.othersocials.map((soc) => (
-                            <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")} key={soc}><Web /></div>
-                        ))}
+                        <div className="icon-group">
+                            {currentAuthor?.twitter && (<div className='icon' title={currentAuthor.twitter} onClick={() => window.open(currentAuthor.twitter, "_blank")}><Twitter /></div>)}
+                            {currentAuthor?.flickr && (<div className='icon' title={currentAuthor.flickr} onClick={() => window.open(currentAuthor.flickr, "_blank")}><Flickr /></div>)}
+                            {currentAuthor?.instagram && (<div className='icon' title={currentAuthor.instagram} onClick={() => window.open(currentAuthor.instagram, "_blank")}><Instagram /></div>)}
+                            {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open("steam://openurl/" + currentAuthor.steam, "_blank")}><Steam /></div>)}
+                            {currentAuthor?.othersocials?.length > 0 && currentAuthor.othersocials.map((soc) => (
+                                <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")} key={soc}><Web /></div>
+                            ))}
+                        </div>
                     </>
                 ) : (
                     <span>{currentShot?.displayName}</span>

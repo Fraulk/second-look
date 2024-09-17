@@ -12,7 +12,7 @@
     border-left: 2px solid #737373;
     // box-shadow: 0px 0px 10px 0px #0000005e;
     transition: right 0.3s cubic-bezier(.08,.82,.17,1);
-    z-index: 2;
+    z-index: 9;
 
     &.open {
         right: 0;
