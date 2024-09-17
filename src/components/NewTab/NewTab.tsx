@@ -10,12 +10,20 @@ import Twitter from "../../assets/icons/Twitter"
 import Web from "../../assets/icons/Web"
 import ConfigPanel from "../ConfigPanel/ConfigPanel"
 import Cog from "../../assets/icons/Cog"
+import Eye from "../../assets/icons/Eye"
+import Resize from "../../assets/icons/Resize"
 
 export interface ConfigList {
     datetime: boolean;
     datetimePosition: string;
     hours12: boolean;
     color: string;
+    bgcolor: string;
+    blurBool: boolean;
+    blur: number;
+    opacityBool: boolean;
+    opacity: number;
+    shadowBool: boolean;
 }
 
 const NewTab = () => {
@@ -26,12 +34,23 @@ const NewTab = () => {
     const now = new Date()
     const [currentTime, setCurrentTime] = useState(now)
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false)
+    const [isFullView, setIsFullView] = useState(false)
+    const [isCleanView, setIsCleanView] = useState(false)
     const [config, setConfig] = useState<ConfigList>(localStorage.getItem("newTabConfig") ? JSON.parse(localStorage.getItem("newTabConfig") as string) : {
         datetime: true,
         datetimePosition: "center",
         hours12: false,
         color: "#ffffff",
+        bgcolor: "#212121",
+        blurBool: false,
+        blur: 5,
+        opacityBool: false,
+        opacity: 1,
+        shadowBool: true,
     })
+
+    // Toggle shadow class for datetime
+    const shadow = config.shadowBool ? 'shadow' : '';
 
     const firebaseObjToArray = (obj: any) => {
         let respShots: Shot[] = obj;
@@ -79,22 +98,47 @@ const NewTab = () => {
     }, [currentShot, authors])
 
     return (
-        <div className="new-tab">
-            <div className="config-btn icon" onClick={() => setIsConfigPanelOpen(true)}>
-                <Cog />
+        <div className={`new-tab ${isCleanView ? "cleaned" : ""}`} style={{backgroundColor: config.bgcolor}}>
+            <div className="icon-tray icon-tray-tr">
+                <div className={`icon-group group-eye ${isCleanView ? "active" : ""}`}>
+                    <div className="view-btn icon" onClick={() => setIsCleanView((prev) => !prev)}>
+                        <Eye />
+                    </div>
+                    <div className="icon-subgroup">
+                        <div className="resize-btn icon" onClick={() => setIsFullView((prev) => !prev)}>
+                            <Resize />
+                        </div>
+                    </div>
+                </div>
+                <div className="config-btn icon" onClick={() => setIsConfigPanelOpen(true)}>
+                    <Cog />
+                </div>
             </div>
             <ConfigPanel config={config} onConfigChange={handleConfigChange} open={isConfigPanelOpen} onClose={() => setIsConfigPanelOpen(false)} />
             <img
                 src={currentShot?.imageUrl}
                 alt=""
-                className="new-tab-image"
+                className={`new-tab-image ${isFullView ? 'fit' : ''}`}
                 onDragStart={(e) => e.preventDefault()}
-                onLoad={(e) => e.currentTarget.style.opacity = "1"}
+                onLoad={(e) => e.currentTarget.style.opacity = (config.opacityBool) ? `${config.opacity}` : '1'}
+                style={{filter: (config.blurBool) ? `blur(${config.blur}px)` : 'blur(0px)', opacity: (config.opacityBool) ? config.opacity : '1'}} 
             />
+            {currentShot?.imageUrl && (
+                <div
+                    className={`new-tab-clone ${isCleanView ? 'active' : ''}`}
+                    style={{
+                        backgroundImage: 'url(' + currentShot?.imageUrl + ')',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center center',
+                        backgroundSize: 'cover',
+                        filter: 'blur(20px)'
+                    }}
+                ></div>
+            )}
             {config.datetime && (
-                <div className={`datetime ${config.datetimePosition}`} style={{color: config.color}}>
+                <div className={`datetime ${config.datetimePosition} ${shadow}`} style={{color: config.color, opacity: isCleanView ? 0 : 1}}>
                     <div className="time">
-                        {currentTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: config.hours12 })}
+                        {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: config.hours12 })}
                     </div>
                     <div className="sep"></div>
                     <div className="date">
@@ -107,13 +151,15 @@ const NewTab = () => {
                     <>
                         <span>{currentAuthor?.authorNick}</span>
                         |
-                        {currentAuthor?.twitter && (<div className='icon' title={currentAuthor.twitter} onClick={() => window.open(currentAuthor.twitter, "_blank")}><Twitter /></div>)}
-                        {currentAuthor?.flickr && (<div className='icon' title={currentAuthor.flickr} onClick={() => window.open(currentAuthor.flickr, "_blank")}><Flickr /></div>)}
-                        {currentAuthor?.instagram && (<div className='icon' title={currentAuthor.instagram} onClick={() => window.open(currentAuthor.instagram, "_blank")}><Instagram /></div>)}
-                        {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open("steam://openurl/" + currentAuthor.steam, "_blank")}><Steam /></div>)}
-                        {currentAuthor?.othersocials?.length > 0 && currentAuthor.othersocials.map((soc) => (
-                            <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")} key={soc}><Web /></div>
-                        ))}
+                        <div className="icon-group">
+                            {currentAuthor?.twitter && (<div className='icon' title={currentAuthor.twitter} onClick={() => window.open(currentAuthor.twitter, "_blank")}><Twitter /></div>)}
+                            {currentAuthor?.flickr && (<div className='icon' title={currentAuthor.flickr} onClick={() => window.open(currentAuthor.flickr, "_blank")}><Flickr /></div>)}
+                            {currentAuthor?.instagram && (<div className='icon' title={currentAuthor.instagram} onClick={() => window.open(currentAuthor.instagram, "_blank")}><Instagram /></div>)}
+                            {currentAuthor?.steam && (<div className='icon' title={currentAuthor.steam} onClick={() => window.open("steam://openurl/" + currentAuthor.steam, "_blank")}><Steam /></div>)}
+                            {currentAuthor?.othersocials?.length > 0 && currentAuthor.othersocials.map((soc) => (
+                                <div className='icon' title={soc} onClick={() => window.open(soc, "_blank")} key={soc}><Web /></div>
+                            ))}
+                        </div>
                     </>
                 ) : (
                     <span>{currentShot?.displayName}</span>

@@ -3,27 +3,85 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    position: relative;
+    z-index:2;
 
     .new-tab-image {
         width: 100vw;
         height: 100vh;
         opacity: 0;
-        transition: opacity 0.5s;
+        z-index: 2;
+        transition: opacity .5s, object-fit .5s;
         // background-size: 100%;
         // background-repeat: no-repeat;
         object-fit: cover;
+
+        &.fit {
+            object-fit: contain;
+        }
     }
 
-    .config-btn {
+    .new-tab-clone {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+        opacity: 0;
+        transition: .25s opacity;
+
+        &.active {
+            opacity: .5;
+        }
+    }
+
+    .icon-tray {
+        position: fixed;
+        z-index: 9;
+
+        .icon {
+            filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.818));
+        }
+        &.icon-tray-tr {
+            top: .5rem;
+            right: .5rem;
+        }
+        &.icon-tray-br {
+            bottom: .5rem;
+            right: .5rem;
+        }
+    
+    }
+
+    .icon-group {
+        position: relative;
+
+        .icon-subgroup {
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: 0;
+            transition: .25s opacity, .25s right;
+            pointer-events: none;
+        }
+
+        &.active {
+            .icon-subgroup {
+                right: 100%;
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
+    }
+
+
+    .icon {
         color: white;
         width: 20px;
         height: 20px;
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.818));
-        z-index: 1;
         cursor: pointer;
+        padding: 8px;
     }
 
     .links {
@@ -31,7 +89,7 @@
         position: absolute;
         bottom: 16px;
         left: 16px;
-        z-index: 1;
+        z-index: 9;
         display: flex;
         align-items: center;
         text-shadow: 0px 1px 5px black;
@@ -44,6 +102,11 @@
         // a {
         //     text-shadow: 0px 1px 5px;
         // }
+
+        .icon-group {
+            display: flex;
+            flex-direction: row;
+        }
 
         .icon {
             width: 20px;
@@ -63,8 +126,12 @@
         flex-flow: column;
         align-items: center;
         gap: 8px;
-        text-shadow: 0px 1px 5px black;
-        z-index: 1;
+        z-index: 3;
+        transition: .25s color, .25s text-shadow;
+
+        &.shadow {
+            text-shadow: 0px 1px 5px black;
+        }
 
         .time {
             font-size: 5rem;
@@ -135,5 +202,12 @@
         bottom: 2rem;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    &.cleaned {
+        .new-tab-image {
+            filter: none !important;
+            opacity: 1 !important;
+        }
     }
 }
