@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import "./style.scss"
 import { get, child, getDatabase, ref } from "firebase/database"
 import { TODAYS_GALLERY_ID } from "../../utils/utils"
@@ -36,6 +36,7 @@ const NewTab = () => {
     const [isConfigPanelOpen, setIsConfigPanelOpen] = useState(false)
     const [isFullView, setIsFullView] = useState(false)
     const [isCleanView, setIsCleanView] = useState(false)
+    const imgRef = useRef<HTMLImageElement>(null)
     const [config, setConfig] = useState<ConfigList>(localStorage.getItem("newTabConfig") ? JSON.parse(localStorage.getItem("newTabConfig") as string) : {
         datetime: true,
         datetimePosition: "center",
@@ -74,6 +75,8 @@ const NewTab = () => {
 
     const handleConfigChange = (newConfig: ConfigList) => {
         setConfig(newConfig)
+        if (imgRef.current)
+            imgRef.current.style.opacity = (newConfig.opacityBool) ? `${newConfig.opacity}` : '1'
         localStorage.setItem("newTabConfig", JSON.stringify(newConfig))
     }
 
@@ -121,7 +124,8 @@ const NewTab = () => {
                 className={`new-tab-image ${isFullView ? 'fit' : ''}`}
                 onDragStart={(e) => e.preventDefault()}
                 onLoad={(e) => e.currentTarget.style.opacity = (config.opacityBool) ? `${config.opacity}` : '1'}
-                style={{filter: (config.blurBool) ? `blur(${config.blur}px)` : 'blur(0px)', opacity: (config.opacityBool) ? config.opacity : '1'}} 
+                style={{ filter: (config.blurBool) ? `blur(${config.blur}px)` : 'blur(0px)' }}
+                ref={imgRef}
             />
             {currentShot?.imageUrl && (
                 <div
