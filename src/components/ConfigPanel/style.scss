@@ -38,15 +38,6 @@
             border-bottom: none;
         }
 
-        .toggle-group[data-toggled="false"] {
-            .config-item:not(:first-child) {
-                height: 0;
-                padding-top: 0;
-                padding-bottom: 0;
-                border: 0;
-            }
-        }
-
         .config-item {
             display: flex;
             transition: .25s height;
